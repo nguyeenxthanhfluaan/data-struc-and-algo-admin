@@ -2,8 +2,11 @@ const express = require('express')
 const router = express.Router()
 const Post = require('../models/Post')
 const search = require('../utilities/search')
+const Type = require('../models/Type')
+const Category = require('../models/Category')
+const Subject = require('../models/Subject')
 
-// @route   GET post?category=algorithm&keyword=
+// @route   GET api/post?category=algorithm&keyword=test
 // @desc    Get posts with conditions in query string,
 //          Get all post if no condition
 router.get('/', async (req, res) => {
@@ -11,8 +14,24 @@ router.get('/', async (req, res) => {
 		const { category, type, keyword } = req.query
 		console.log(req.query)
 
-		let result = await Post.find()
-		result = search(result, { category, type, keyword })
+		let query = {}
+
+		if (category) {
+			console.log('co category')
+			query['categories'] = { $elemMatch: { category } }
+		}
+
+		if (type) {
+			console.log('co type')
+			query['post.types'] = { type }
+		}
+
+		console.log(query)
+
+		const result = await Post.find(query)
+			.populate({ path: 'type', model: Type })
+			.populate({ path: 'categories.category', model: Category })
+			.populate({ path: 'subjects.subject', model: Subject })
 
 		res.json(result)
 	} catch (error) {
@@ -21,7 +40,7 @@ router.get('/', async (req, res) => {
 	}
 })
 
-// @route   GET post/618c8ed8b52e4e9b41736c4d
+// @route   GET api/post/618c8ed8b52e4e9b41736c4d
 // @desc    Get a post by id
 router.get('/:id', async (req, res) => {
 	try {
@@ -33,19 +52,31 @@ router.get('/:id', async (req, res) => {
 	}
 })
 
-// @route   POST post
+// @route   POST /api/post
 // @desc    Create a post
 router.post('/', async (req, res) => {
 	try {
-		const { title, body, categories, types } = req.body
+		const { title, body, categories, type, subjects, keywords } = req.body
 		const post = new Post({
 			title,
 			body,
+			type,
 			categories,
-			types
+			subjects,
+			keywords
 		})
 		console.log(post)
-		await post.save()
+		const result = await post.save()
+		res.json(result)
+	} catch (error) {
+		console.log(error)
+		res.status(500).send('Server Error')
+	}
+})
+
+router.delete('/', async (req, res) => {
+	try {
+		await Post.deleteMany()
 		res.send('success')
 	} catch (error) {
 		console.log(error)

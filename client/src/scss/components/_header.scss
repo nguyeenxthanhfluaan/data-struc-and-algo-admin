@@ -1,0 +1,52 @@
+.header {
+	background-color: $header-color;
+
+	&__top {
+		display: flex;
+		height: $header-top-height;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__logo {
+		height: 70px;
+
+		img {
+			object-fit: contain;
+			max-height: 100%;
+		}
+	}
+
+	&__search {
+		display: flex;
+		width: 400px;
+
+		&__input {
+			border: none;
+			outline: none;
+			font-size: 1.6rem;
+			padding: 10px;
+			padding-left: 20px;
+			flex: 1;
+		}
+	}
+
+	&__bot {
+		&__list {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			&__item {
+				font-size: 1.6rem;
+				color: $white-color;
+				padding: 6px 16px;
+
+				&.active,
+				&:hover {
+					color: #b033f4;
+				}
+			}
+		}
+	}
+}
