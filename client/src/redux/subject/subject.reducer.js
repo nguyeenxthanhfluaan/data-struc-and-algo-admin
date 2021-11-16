@@ -1,15 +1,15 @@
-import categoryTypes from './category.types'
+import subjectTypes from './subject.types'
 
 const initialState = {
-	categories: []
+	subjects: []
 }
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case categoryTypes.SET_CATEGORY:
+		case subjectTypes.SET_SUBJECT:
 			return {
 				...state,
-				categories: action.payload
+				subjects: action.payload
 			}
 		default:
 			return state

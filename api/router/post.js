@@ -11,7 +11,7 @@ const Subject = require('../models/Subject')
 //          Get all post if no condition
 router.get('/', async (req, res) => {
 	try {
-		const { category, type, keyword } = req.query
+		const { category, type, keyword, subject } = req.query
 		console.log(req.query)
 
 		let query = {}
@@ -21,19 +21,24 @@ router.get('/', async (req, res) => {
 			query['categories'] = { $elemMatch: { category } }
 		}
 
+		if (subject) {
+			console.log('co subject')
+			query['subjects'] = { $elemMatch: { subject } }
+		}
+
 		if (type) {
 			console.log('co type')
 			query['post.types'] = { type }
 		}
 
-		console.log(query)
+		console.log({ query })
 
 		const result = await Post.find(query)
 			.populate({ path: 'type', model: Type })
 			.populate({ path: 'categories.category', model: Category })
 			.populate({ path: 'subjects.subject', model: Subject })
 
-		res.json(result)
+		res.json(search(result, keyword))
 	} catch (error) {
 		console.log(error)
 		res.status(500).send('Server Error')
@@ -49,6 +54,7 @@ router.get('/:id', async (req, res) => {
 	} catch (error) {
 		console.log(error)
 		res.status(500).send('Server Error')
+		console.log(req.params)
 	}
 })
 
@@ -56,16 +62,17 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a post
 router.post('/', async (req, res) => {
 	try {
-		const { title, body, categories, type, subjects, keywords } = req.body
+		const { title, description, body, categories, type, subjects, keywords } =
+			req.body
 		const post = new Post({
 			title,
+			description,
 			body,
 			type,
 			categories,
 			subjects,
 			keywords
 		})
-		console.log(post)
 		const result = await post.save()
 		res.json(result)
 	} catch (error) {

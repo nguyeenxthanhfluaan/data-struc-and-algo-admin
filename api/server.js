@@ -7,8 +7,6 @@ connectDb()
 // Translate json
 app.use(express.json({ extended: false }))
 
-
-
 // route
 app.use('/api/post', require('./router/post'))
 app.use('/api/category', require('./router/category'))

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-import { fetchPost } from '../redux/post/post.actions'
+import { fetchPosts } from '../redux/post/post.actions'
 
 import List from '../components/List'
 
@@ -16,7 +16,7 @@ const CatagoryPage = (props) => {
 	console.log(posts)
 
 	useEffect(() => {
-		dispatch(fetchPost({ category: id }))
+		dispatch(fetchPosts({ category: id }))
 	}, [id, dispatch])
 
 	return <List data={posts} />

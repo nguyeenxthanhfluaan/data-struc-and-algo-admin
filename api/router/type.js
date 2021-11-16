@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	try {
 		const type = new Type({
-			type: req.body.type
+			name: req.body.name
 		})
 		const result = await type.save()
 		res.json(result)

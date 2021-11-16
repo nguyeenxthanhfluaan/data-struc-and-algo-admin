@@ -2,9 +2,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const CategorySchema = mongoose.Schema({
-	category: {
-		type: Schema.Types.String,
-      unique: true
+	name: {
+		type: Schema.Types.String
 	}
 })
 

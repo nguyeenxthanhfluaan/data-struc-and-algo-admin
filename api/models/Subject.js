@@ -2,9 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const SubjectSchema = mongoose.Schema({
-	subject: {
-		type: Schema.Types.String,
-		unique: true
+	name: {
+		type: Schema.Types.String
+	},
+	category: {
+		type: Schema.Types.ObjectId,
+		ref: 'categories'
 	}
 })
 

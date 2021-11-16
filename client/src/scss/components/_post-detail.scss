@@ -1,0 +1,9 @@
+.post-detail {
+	overflow: hidden;
+	padding: 20px;
+
+	&__heading {
+		font-size: 1.8rem;
+		color: $sub-color;
+	}
+}

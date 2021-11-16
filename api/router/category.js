@@ -29,8 +29,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 	try {
 		const category = new Category({
-			category: req.body.category
+			name: req.body.name
 		})
+		console.log(category)
+		// const result = 1
 		const result = await category.save()
 		res.json(result)
 	} catch (error) {

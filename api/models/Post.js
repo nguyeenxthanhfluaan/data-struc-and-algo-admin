@@ -4,8 +4,11 @@ const Schema = mongoose.Schema
 const PostSchema = mongoose.Schema({
 	title: {
 		type: Schema.Types.String,
-		require: true,
-		unique: true
+		require: true
+	},
+	description: {
+		type: Schema.Types.String,
+		require: true
 	},
 	body: {
 		type: Schema.Types.String,
@@ -19,7 +22,7 @@ const PostSchema = mongoose.Schema({
 		{
 			category: {
 				type: Schema.Types.ObjectId,
-				ref: 'categories'
+				ref: 'category'
 			}
 		}
 	],
@@ -27,7 +30,7 @@ const PostSchema = mongoose.Schema({
 		{
 			subject: {
 				type: Schema.Types.ObjectId,
-				ref: 'subjects'
+				ref: 'subject'
 			}
 		}
 	],

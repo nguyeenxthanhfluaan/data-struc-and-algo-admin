@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 
 import logo from '../images/logo.png'
 import { fetchCategory } from '../redux/category/category.actions'
@@ -13,18 +13,25 @@ import Button from './Button'
 
 const Header = () => {
 	const dispatch = useDispatch()
+	const history = useHistory()
+
+	const [keyword, setKeyword] = useState('')
 
 	const { categories } = useSelector(({ category }) => ({
 		categories: category.categories
 	}))
 
-	const { pathname, search } = useLocation()
-	console.log({ pathname })
-	console.log({ search })
+	const { pathname } = useLocation()
 
 	useEffect(() => {
 		dispatch(fetchCategory())
 	}, [])
+
+	const search = useCallback(() => {
+		if (keyword !== '') {
+			history.push(`/search?keyword=${keyword}`)
+		}
+	}, [keyword])
 
 	return (
 		<header className='header'>
@@ -40,13 +47,15 @@ const Header = () => {
 							type='text'
 							className='header__search__input'
 							placeholder='Nhập từ khóa'
+							value={keyword}
+							onChange={(e) => setKeyword(e.target.value)}
 						/>
-						<Button>
+						<Button onClick={search}>
 							<FontAwesomeIcon icon={faSearch} />
 						</Button>
 					</div>
 				</div>
-				<div className='header__bot'>
+				{/* <div className='header__bot'>
 					<ul className='header__bot__list'>
 						<li
 							className={`header__bot__list__item ${
@@ -69,14 +78,8 @@ const Header = () => {
 									</Link>
 								</li>
 							))}
-						{/* <li className='header__bot__list__item'>
-							<Link to=''>Lý thuyết</Link>
-						</li>
-						<li className='header__bot__list__item'>
-							<Link to=''>Bài tập</Link>
-						</li> */}
 					</ul>
-				</div>
+				</div> */}
 			</div>
 		</header>
 	)
