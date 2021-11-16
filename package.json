@@ -1,0 +1,25 @@
+{
+	"name": "do_an",
+	"version": "1.0.0",
+	"description": "",
+	"main": "test.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"server": "cd api && nodemon server",
+		"client": "cd client && npm start",
+		"start": "concurrently \"npm run server\" \"npm run client\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/buivantann/data-structure-search.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/buivantann/data-structure-search/issues"
+	},
+	"homepage": "https://github.com/buivantann/data-structure-search#readme",
+	"dependencies": {
+		"concurrently": "^6.4.0"
+	}
+}
