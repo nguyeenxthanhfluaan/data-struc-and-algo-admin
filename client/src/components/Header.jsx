@@ -6,7 +6,12 @@ import logo from '../images/logo.png'
 import { fetchCategory } from '../redux/category/category.actions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import {
+	faSearch,
+	faUser,
+	faPlus,
+	faPlusCircle
+} from '@fortawesome/free-solid-svg-icons'
 
 import { Link } from 'react-router-dom'
 import Button from './Button'
@@ -16,16 +21,6 @@ const Header = () => {
 	const history = useHistory()
 
 	const [keyword, setKeyword] = useState('')
-
-	const { categories } = useSelector(({ category }) => ({
-		categories: category.categories
-	}))
-
-	const { pathname } = useLocation()
-
-	useEffect(() => {
-		dispatch(fetchCategory())
-	}, [])
 
 	const search = useCallback(() => {
 		if (keyword !== '') {
@@ -54,32 +49,23 @@ const Header = () => {
 							<FontAwesomeIcon icon={faSearch} />
 						</Button>
 					</div>
+					<div className='header__control'>
+						{/* <Button>
+							<FontAwesomeIcon
+								icon={faUser}
+								className='header__auth__icon'
+							/>
+							Đăng nhập
+						</Button> */}
+						<Button onClick={() => history.push('/post/create')}>
+							<FontAwesomeIcon
+								icon={faPlusCircle}
+								className='header__auth__icon'
+							/>
+							Tạo bài đăng
+						</Button>
+					</div>
 				</div>
-				{/* <div className='header__bot'>
-					<ul className='header__bot__list'>
-						<li
-							className={`header__bot__list__item ${
-								pathname.includes('category') ? '' : 'active'
-							}`}
-						>
-							<Link to={`/`}>Home</Link>
-						</li>
-						{categories &&
-							categories.length > 0 &&
-							categories.map((item) => (
-								<li
-									className={`header__bot__list__item ${
-										pathname.includes(item._id) ? 'active' : ''
-									}`}
-									key={item._id}
-								>
-									<Link to={`/category/${item._id}`}>
-										{item.category}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</div> */}
 			</div>
 		</header>
 	)

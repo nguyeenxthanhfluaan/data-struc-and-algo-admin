@@ -2,9 +2,19 @@
 	overflow: hidden;
 	padding: 20px;
 
-	&__heading {
-		font-size: 1.8rem;
-		color: $sub-color;
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		&__text {
+			font-size: 3rem;
+			color: $sub-color;
+		}
+	}
+
+	&__content {
+		font-size: 1.6rem;
 	}
 
 	&__related {

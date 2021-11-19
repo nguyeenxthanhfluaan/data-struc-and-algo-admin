@@ -23,7 +23,7 @@ app.use('/api/subject', require('./router/subject'))
 app.use('/api/type', require('./router/type'))
 
 // Upload image
-app.post('/api/img/upload', multipartMiddleware, (req, res) => {
+app.post('/img/upload', multipartMiddleware, (req, res) => {
 	const tempFile = req.files.upload
 	const tempPathFile = tempFile.path
 

@@ -51,6 +51,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		const result = await Post.findById(req.params.id)
+			.populate({ path: 'type', model: Type })
+			.populate({ path: 'categories.category', model: Category })
+			.populate({ path: 'subjects.subject', model: Subject })
 		res.json(result)
 	} catch (error) {
 		console.log(error)
@@ -85,6 +88,42 @@ router.post('/', async (req, res) => {
 		const result = await post.save()
 		res.json(result)
 		// res.json(post)
+	} catch (error) {
+		console.log(error)
+		res.status(500).send('Server Error')
+	}
+})
+
+// @route   POST /api/post
+// @desc    Update a post
+router.put('/', async (req, res) => {
+	try {
+		const {
+			_id,
+			title,
+			description,
+			content,
+			categories,
+			type,
+			subjects,
+			keywords
+		} = req.body
+
+		const result = await Post.findOneAndUpdate(
+			{ _id },
+			{
+				title,
+				description,
+				content,
+				categories,
+				type,
+				subjects,
+				keywords,
+				lastModified: Date.now()
+			},
+			{ new: true }
+		)
+		res.json(result)
 	} catch (error) {
 		console.log(error)
 		res.status(500).send('Server Error')

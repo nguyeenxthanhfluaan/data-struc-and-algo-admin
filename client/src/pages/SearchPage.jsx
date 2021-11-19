@@ -16,11 +16,12 @@ const SearchPage = () => {
 
 	const { search } = useLocation()
 
-	const { posts, categories, subjects } = useSelector(
-		({ post, category, subject }) => ({
+	const { posts, categories, subjects, types } = useSelector(
+		({ post, category, subject, type }) => ({
 			posts: post.posts,
 			categories: category.categories,
-			subjects: subject.subjects
+			subjects: subject.subjects,
+			types: type.types
 		})
 	)
 
@@ -29,21 +30,23 @@ const SearchPage = () => {
 	const keyword = searchParams.get('keyword')
 
 	const [category, setCategory] = useState('')
-
 	const [subject, setSubject] = useState('')
+	const [type, setType] = useState('')
 
 	useEffect(() => {
+		if (searchParams.get('category'))
+			setCategory(searchParams.get('category'))
+		if (searchParams.get('subject')) setSubject(searchParams.get('subject'))
+
 		dispatch(
 			fetchPosts({
 				keyword,
+				type: searchParams.get('type') || null,
 				category: searchParams.get('category') || null,
 				subject: searchParams.get('subject') || null
 			})
 		)
-		if (searchParams.get('category'))
-			setCategory(searchParams.get('category'))
-		if (searchParams.get('subject')) setSubject(searchParams.get('subject'))
-	}, [])
+	}, [keyword])
 
 	const handleChangeCategory = (e) => {
 		setCategory(e.target.value)
@@ -66,6 +69,27 @@ const SearchPage = () => {
 						'Danh sách'
 					)}
 				</h6>
+
+				<div className='search__filter__group'>
+					<label htmlFor='select-type' className='search__filter__label'>
+						Chọn loại
+					</label>
+					<select
+						id='select-type'
+						className='search__filter__select'
+						value={type}
+						onChange={(e) => setType(e.target.value)}
+					>
+						<option value=''> -- Chọn tất cả -- </option>
+						{types &&
+							types.length > 0 &&
+							types.map((item) => (
+								<option key={item._id} value={item._id}>
+									{item.name}
+								</option>
+							))}
+					</select>
+				</div>
 
 				<div className='search__filter__group'>
 					<label

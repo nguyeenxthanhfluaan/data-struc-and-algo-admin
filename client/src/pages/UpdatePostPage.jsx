@@ -1,16 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+
+import { createPost, updatePost } from '../redux/post/post.actions'
 
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
 import { toast } from 'react-toastify'
 
-import { createPost } from '../redux/post/post.actions'
-
 import Button from '../components/Button'
 
 const CreatePostPage = () => {
 	const dispatch = useDispatch()
+	const history = useHistory()
 
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
@@ -20,13 +22,37 @@ const CreatePostPage = () => {
 	const [postSubjects, setPostSubjects] = useState([{ subject: '' }])
 	const [keywords, setKeywords] = useState('')
 
-	const { categories, subjects, types } = useSelector(
-		({ category, subject, type }) => ({
+	const { categories, subjects, types, post } = useSelector(
+		({ category, subject, type, post }) => ({
 			categories: category.categories,
 			subjects: subject.subjects,
-			types: type.types
+			types: type.types,
+			post: post.post
 		})
 	)
+
+	useEffect(() => {
+		if (!post || Object.keys(post).length <= 0) {
+			return history.push('/')
+		}
+
+		setTitle(post.title)
+		setDescription(post.description)
+		setContent(post.content)
+		setType(post.type._id)
+		setPostCategories(
+			post.categories.map((item) => ({ category: item.category._id }))
+		)
+		setPostSubjects([
+			...post.subjects.map((item) => ({ subject: item.subject._id })),
+			{
+				subject: ''
+			}
+		])
+		setKeywords(post.keywords.join(','))
+	}, [post])
+
+	console.log({ postCategories })
 
 	useEffect(() => {
 		let postCategoriesTemp = []
@@ -96,7 +122,8 @@ const CreatePostPage = () => {
 			postSubjectsFilter.length > 0
 		) {
 			dispatch(
-				createPost({
+				updatePost({
+					_id: post._id,
 					title,
 					description,
 					content,
@@ -245,7 +272,7 @@ const CreatePostPage = () => {
 					Reset
 				</Button>
 				<Button className='create-post__btn' onClick={submitForm}>
-					Tạo bài
+					Sữa bài
 				</Button>
 			</div>
 		</div>

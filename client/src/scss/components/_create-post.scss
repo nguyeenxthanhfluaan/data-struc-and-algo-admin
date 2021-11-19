@@ -10,6 +10,10 @@
 		.ck-content {
 			min-height: 300px;
 		}
+
+		.ck.ck-editor__editable_inline {
+			border: 1px solid rgba($color: #000000, $alpha: 0.4);
+		}
 	}
 
 	&__btn-group {
