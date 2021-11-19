@@ -10,7 +10,7 @@ const PostSchema = mongoose.Schema({
 		type: Schema.Types.String,
 		require: true
 	},
-	body: {
+	content: {
 		type: Schema.Types.String,
 		require: true
 	},
@@ -36,11 +36,13 @@ const PostSchema = mongoose.Schema({
 	],
 	keywords: [
 		{
-			keyword: {
-				type: Schema.Types.String
-			}
+			type: Schema.Types.String
 		}
-	]
+	],
+	lastModified: {
+		type: Schema.Types.Date,
+		default: Date.now
+	}
 })
 
 const Post = mongoose.model('post', PostSchema)

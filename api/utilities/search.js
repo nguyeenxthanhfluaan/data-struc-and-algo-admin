@@ -8,13 +8,22 @@ function search(arr, keyword) {
 	if (keyword) {
 		const keywords = keyword.split(' ')
 
-      console.log(keywords)
+		console.log(keywords)
 
 		if (Array.isArray(keywords) && keywords.length > 0) {
 			arr = arr.filter((item) => {
 				console.log({ item })
-				console.log(keywords.every((item1) => item.title.includes(item1)))
-				return keywords.every((item1) => item.title.includes(item1))
+
+				return keywords.every((item1) => {
+					console.log({ item1 })
+					console.log({ keyword: item.keywords })
+					console.log({ true: item.keywords.includes(item1.toString()) })
+
+					return (
+						item.title.includes(item1.toString()) ||
+						item.keywords.includes(item1.toString())
+					)
+				})
 			})
 		}
 	}

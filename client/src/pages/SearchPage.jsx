@@ -45,8 +45,12 @@ const SearchPage = () => {
 		if (searchParams.get('subject')) setSubject(searchParams.get('subject'))
 	}, [])
 
+	const handleChangeCategory = (e) => {
+		setCategory(e.target.value)
+		setSubject('')
+	}
+
 	const filter = () => {
-		console.log({ keyword, category, subject })
 		dispatch(fetchPosts({ keyword, category, subject }))
 	}
 
@@ -74,7 +78,7 @@ const SearchPage = () => {
 						id='select-category'
 						className='search__filter__select'
 						value={category}
-						onChange={(e) => setCategory(e.target.value)}
+						onChange={handleChangeCategory}
 					>
 						<option value=''> -- Chọn tất cả -- </option>
 						{categories &&

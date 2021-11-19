@@ -37,6 +37,7 @@ router.get('/', async (req, res) => {
 			.populate({ path: 'type', model: Type })
 			.populate({ path: 'categories.category', model: Category })
 			.populate({ path: 'subjects.subject', model: Subject })
+			.sort({ lastModified: -1 })
 
 		res.json(search(result, keyword))
 	} catch (error) {
@@ -62,19 +63,28 @@ router.get('/:id', async (req, res) => {
 // @desc    Create a post
 router.post('/', async (req, res) => {
 	try {
-		const { title, description, body, categories, type, subjects, keywords } =
-			req.body
+		const {
+			title,
+			description,
+			content,
+			categories,
+			type,
+			subjects,
+			keywords
+		} = req.body
 		const post = new Post({
 			title,
 			description,
-			body,
+			content,
 			type,
 			categories,
 			subjects,
 			keywords
 		})
+		console.log(post)
 		const result = await post.save()
 		res.json(result)
+		// res.json(post)
 	} catch (error) {
 		console.log(error)
 		res.status(500).send('Server Error')
