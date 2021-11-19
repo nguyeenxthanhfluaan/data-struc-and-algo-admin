@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { fetchCategory } from './redux/category/category.actions'
 import { fetchSubject } from './redux/subject/subject.actions'
 import { fetchTypes } from './redux/type/type.actions'
+import { loadUser } from './redux/user/user.actions'
 
 import Homepage from './pages/Homepage'
 import CatagoryPage from './pages/CatagoryPage'
@@ -19,6 +20,8 @@ import PostDetailPage from './pages/PostDetailPage'
 import Header from './components/Header'
 import CreatePostPage from './pages/CreatePostPage'
 import UpdatePostPage from './pages/UpdatePostPage'
+import Login from './pages/Login'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
 	const dispatch = useDispatch()
@@ -27,6 +30,7 @@ function App() {
 		dispatch(fetchCategory())
 		dispatch(fetchSubject())
 		dispatch(fetchTypes())
+		dispatch(loadUser())
 	}, [])
 
 	return (
@@ -37,9 +41,18 @@ function App() {
 					<Route path='/' exact component={Homepage} />
 					<Route path='/category/:id' exact component={CatagoryPage} />
 					<Route path='/search' exact component={SearchPage} />
-					<Route path='/post/create' exact component={CreatePostPage} />
-					<Route path='/post/update' exact component={UpdatePostPage} />
+					<PrivateRoute
+						path='/post/create'
+						exact
+						component={CreatePostPage}
+					/>
+					<PrivateRoute
+						path='/post/update'
+						exact
+						component={UpdatePostPage}
+					/>
 					<Route path='/post/:id' exact component={PostDetailPage} />
+					<Route path='/login' exact component={Login} />
 				</Switch>
 			</div>
 			<ToastContainer />

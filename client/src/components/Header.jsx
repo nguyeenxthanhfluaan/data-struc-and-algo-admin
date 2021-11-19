@@ -9,23 +9,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faSearch,
 	faUser,
-	faPlus,
-	faPlusCircle
+	faPlusCircle,
+	faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 import { Link } from 'react-router-dom'
 import Button from './Button'
+import Marginer from './Marginer'
+import { logoutUser } from '../redux/user/user.actions'
 
 const Header = () => {
 	const dispatch = useDispatch()
 	const history = useHistory()
 
+	const { user } = useSelector(({ user }) => ({ user: user.user }))
+
 	const [keyword, setKeyword] = useState('')
 
 	const search = useCallback(() => {
-		if (keyword !== '') {
-			history.push(`/search?keyword=${keyword}`)
-		}
+		history.push(`/search?keyword=${keyword}`)
 	}, [keyword])
 
 	return (
@@ -50,20 +52,32 @@ const Header = () => {
 						</Button>
 					</div>
 					<div className='header__control'>
-						{/* <Button>
-							<FontAwesomeIcon
-								icon={faUser}
-								className='header__auth__icon'
-							/>
-							Đăng nhập
-						</Button> */}
-						<Button onClick={() => history.push('/post/create')}>
-							<FontAwesomeIcon
-								icon={faPlusCircle}
-								className='header__auth__icon'
-							/>
-							Tạo bài đăng
-						</Button>
+						{user ? (
+							<>
+								<Button onClick={() => history.push('/post/create')}>
+									<FontAwesomeIcon
+										icon={faPlusCircle}
+										className='header__auth__icon'
+									/>
+									Tạo bài đăng
+								</Button>
+								<Button onClick={() => dispatch(logoutUser())}>
+									<FontAwesomeIcon
+										icon={faSignOutAlt}
+										className='header__auth__icon'
+									/>
+									Đăng xuất
+								</Button>
+							</>
+						) : (
+							<Button onClick={() => history.push('/login')}>
+								<FontAwesomeIcon
+									icon={faUser}
+									className='header__auth__icon'
+								/>
+								Đăng nhập
+							</Button>
+						)}
 					</div>
 				</div>
 			</div>

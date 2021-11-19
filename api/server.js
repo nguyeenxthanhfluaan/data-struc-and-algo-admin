@@ -1,6 +1,7 @@
 const express = require('express')
 const connectDb = require('./config/db')
 const multiparty = require('connect-multiparty')
+const cookieParser = require('cookie-parser')
 const path = require('path')
 const fs = require('fs')
 
@@ -15,12 +16,14 @@ connectDb()
 app.use(express.json({ extended: false }))
 // Static file
 app.use('/', express.static('uploads'))
+app.use(cookieParser())
 
 // route
-app.use('/api/post', require('./router/post'))
-app.use('/api/category', require('./router/category'))
-app.use('/api/subject', require('./router/subject'))
-app.use('/api/type', require('./router/type'))
+app.use('/api/post', require('./routes/post'))
+app.use('/api/category', require('./routes/category'))
+app.use('/api/subject', require('./routes/subject'))
+app.use('/api/type', require('./routes/type'))
+app.use('/api/auth', require('./routes/auth'))
 
 // Upload image
 app.post('/img/upload', multipartMiddleware, (req, res) => {

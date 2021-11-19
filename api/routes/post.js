@@ -5,6 +5,7 @@ const search = require('../utilities/search')
 const Type = require('../models/Type')
 const Category = require('../models/Category')
 const Subject = require('../models/Subject')
+const auth = require('../middlewares/auth')
 
 // @route   GET api/post?category=algorithm&keyword=test
 // @desc    Get posts with conditions in query string,
@@ -64,7 +65,7 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST /api/post
 // @desc    Create a post
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	try {
 		const {
 			title,
@@ -87,7 +88,6 @@ router.post('/', async (req, res) => {
 		console.log(post)
 		const result = await post.save()
 		res.json(result)
-		// res.json(post)
 	} catch (error) {
 		console.log(error)
 		res.status(500).send('Server Error')
