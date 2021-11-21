@@ -1,6 +1,7 @@
 const express = require('express')
 const connectDb = require('./config/db')
 const multiparty = require('connect-multiparty')
+const multer = require('multer')
 const cookieParser = require('cookie-parser')
 const { cloudinary } = require('./config/cloudinary')
 const path = require('path')
@@ -9,6 +10,7 @@ const fs = require('fs')
 const app = express()
 
 const multipartMiddleware = multiparty({ uploadDir: './images' })
+const upload = multer()
 
 // Connect db
 connectDb()
@@ -27,15 +29,15 @@ app.use('/api/type', require('./routes/type'))
 app.use('/api/auth', require('./routes/auth'))
 
 // Upload image
-app.post('/img/upload', multipartMiddleware, async (req, res) => {
+app.post('/img/upload', upload.any(), async (req, res) => {
 	try {
-		console.log({ file: req.files })
+		const mimetype = req.files[0].mimetype
+		const base64Image = req.files[0].buffer.toString('base64')
+		const dataURIImage = `data:${mimetype};base64,${base64Image}`
 
-		const pathFile = req.files.upload.path
-		const uploadRes = await cloudinary.uploader.upload(pathFile, {
+		const uploadRes = await cloudinary.uploader.upload(dataURIImage, {
 			upload_preset: 'ml_default',
 		})
-		fs.unlink(path)
 		res.json({
 			uploaded: true,
 			url: `${uploadRes.url}`,
