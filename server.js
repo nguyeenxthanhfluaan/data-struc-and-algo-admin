@@ -33,6 +33,7 @@ app.post('/img/upload', multipartMiddleware, async (req, res) => {
 		const uploadRes = await cloudinary.uploader.upload(pathFile, {
 			upload_preset: 'ml_default',
 		})
+		fs.unlink(path)
 		res.json({
 			uploaded: true,
 			url: `${uploadRes.url}`,
