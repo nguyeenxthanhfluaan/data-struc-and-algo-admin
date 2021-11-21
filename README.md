@@ -1,3 +1,18 @@
-### `npm start`
+# Data Structure Search
 
-To run this application, use cmd: npm start
+
+## :computer: How to run
+
+Clone the repository:
+
+```
+$ git clone https://github.com/buivantann/data-structure-search.git
+```
+
+Next
+
+```
+$ npm start
+```
+
+
