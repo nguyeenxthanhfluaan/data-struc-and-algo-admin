@@ -2,13 +2,12 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router'
 
-import { fetchPostById, fetchPosts } from '../redux/post/post.actions'
+import { fetchPostById } from '../redux/post/post.actions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import Marginer from '../components/Marginer'
-import PostCard from '../components/PostCard'
 import List from '../components/List'
 import Button from '../components/Button'
 
@@ -19,12 +18,12 @@ const PostDetailPage = () => {
 
 	const { post, posts } = useSelector(({ post }) => ({
 		post: post.post,
-		posts: post.posts
+		posts: post.posts,
 	}))
 
 	useEffect(() => {
+		console.log({ id })
 		dispatch(fetchPostById(id))
-		dispatch(fetchPosts({}))
 	}, [])
 
 	return (

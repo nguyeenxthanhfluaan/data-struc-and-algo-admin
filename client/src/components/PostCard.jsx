@@ -8,7 +8,7 @@ const PostCard = ({ post }) => {
 	return (
 		<div className='post-card'>
 			<h4 className='post-card__title'>
-				<Link to={`/post/${post._id}`}>{post.title}</Link>
+				<Link to={`/post/detail/${post._id}`}>{post.title}</Link>
 			</h4>
 			<p className='post-card__desc'>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita!
