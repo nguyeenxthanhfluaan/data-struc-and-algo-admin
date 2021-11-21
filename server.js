@@ -15,7 +15,7 @@ connectDb()
 // Translate json
 app.use(express.json({ extended: false }))
 // Static file
-app.use('/', express.static('uploads'))
+app.use('/upload', express.static('uploads'))
 app.use(cookieParser())
 
 // route
@@ -41,12 +41,21 @@ app.post('/img/upload', multipartMiddleware, (req, res) => {
 		fs.rename(tempPathFile, targetPathUrl, (err) => {
 			res.json({
 				uploaded: true,
-				url: `http://localhost:5000/${tempFile.originalFilename}`
+				url: `http://localhost:5000/upload/${tempFile.originalFilename}`,
 			})
 			if (err) console.log(err)
 		})
 	}
 })
+
+// Hosting
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'))
+	app.get('*', (req, res) => {
+		console.log(__dirname)
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+	})
+}
 
 // listening
 const PORT = process.env.PORT || 5000

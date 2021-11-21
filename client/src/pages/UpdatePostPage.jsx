@@ -27,7 +27,7 @@ const CreatePostPage = () => {
 			categories: category.categories,
 			subjects: subject.subjects,
 			types: type.types,
-			post: post.post
+			post: post.post,
 		})
 	)
 
@@ -46,8 +46,8 @@ const CreatePostPage = () => {
 		setPostSubjects([
 			...post.subjects.map((item) => ({ subject: item.subject._id })),
 			{
-				subject: ''
-			}
+				subject: '',
+			},
 		])
 		setKeywords(post.keywords.join(','))
 	}, [post])
@@ -87,8 +87,8 @@ const CreatePostPage = () => {
 			setPostSubjects([
 				...postSubjects,
 				{
-					subject: ''
-				}
+					subject: '',
+				},
 			])
 		} else {
 			setPostSubjects([...postSubjects])
@@ -122,20 +122,23 @@ const CreatePostPage = () => {
 			postSubjectsFilter.length > 0
 		) {
 			dispatch(
-				updatePost({
-					_id: post._id,
-					title,
-					description,
-					content,
-					type,
-					categories: postCategoriesFilter,
-					subjects: postSubjectsFilter,
-					keywords: keywords.split(',').map((item) => item.trim())
-				}, resetForm)
+				updatePost(
+					{
+						_id: post._id,
+						title,
+						description,
+						content,
+						type,
+						categories: postCategoriesFilter,
+						subjects: postSubjectsFilter,
+						keywords: keywords.split(',').map((item) => item.trim()),
+					},
+					resetForm
+				)
 			)
 		} else {
 			toast.error('Nhập đầy đủ dữ liệu bắt buộc', {
-				style: { fontSize: '1.6rem' }
+				style: { fontSize: '1.6rem' },
 			})
 		}
 	}
@@ -176,7 +179,7 @@ const CreatePostPage = () => {
 					value={type}
 					onChange={(e) => setType(e.target.value)}
 				>
-					<option value=''>-- Nhập --</option>
+					<option value=''>-- Chọn loại bài viết --</option>
 					{types &&
 						types.length > 0 &&
 						types.map((item) => (
@@ -197,7 +200,11 @@ const CreatePostPage = () => {
 						value={item.subject}
 						onChange={(e) => handleChangeSubject(e, index)}
 					>
-						<option value=''>-- Nhập --</option>
+						<option value=''>
+							{index === postSubjects.length - 1
+								? '-- Chọn chủ đề --'
+								: '-- Hủy chủ đề này --'}
+						</option>
 						{subjects &&
 							subjects.length > 0 &&
 							subjects.map((item) => (
@@ -251,7 +258,7 @@ const CreatePostPage = () => {
 						setContent(data)
 					}}
 					config={{
-						ckfinder: { uploadUrl: '/img/upload' }
+						ckfinder: { uploadUrl: '/img/upload' },
 					}}
 				/>
 			</div>

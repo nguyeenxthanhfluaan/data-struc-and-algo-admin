@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faListAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import {
+	faBook,
+	faListAlt,
+	faPlusCircle,
+} from '@fortawesome/free-solid-svg-icons'
 
 import Marginer from '../../components/Marginer'
 import CreatePostPage from '../CreatePostPage'
@@ -9,7 +13,7 @@ import ManageCategory from './ManageCategory'
 import ManageSubject from './ManageSubject'
 
 const AdminPage = () => {
-	const [active, setActive] = useState('')
+	const [active, setActive] = useState('create-post')
 
 	return (
 		<div className='admin'>
@@ -21,7 +25,10 @@ const AdminPage = () => {
 						}`}
 						onClick={() => setActive('create-post')}
 					>
-						<FontAwesomeIcon icon={faPlusCircle} className='admin__menu__list__item__icon' />
+						<FontAwesomeIcon
+							icon={faPlusCircle}
+							className='admin__menu__list__item__icon'
+						/>
 						Tạo bài đăng
 					</li>
 					<li
@@ -30,7 +37,10 @@ const AdminPage = () => {
 						}`}
 						onClick={() => setActive('category')}
 					>
-                  <FontAwesomeIcon icon={faListAlt} className='admin__menu__list__item__icon' />
+						<FontAwesomeIcon
+							icon={faListAlt}
+							className='admin__menu__list__item__icon'
+						/>
 						Danh mục
 					</li>
 					<li
@@ -39,7 +49,10 @@ const AdminPage = () => {
 						}`}
 						onClick={() => setActive('subject')}
 					>
-                  <FontAwesomeIcon icon={faBook} className='admin__menu__list__item__icon' />
+						<FontAwesomeIcon
+							icon={faBook}
+							className='admin__menu__list__item__icon'
+						/>
 						Chủ đề
 					</li>
 				</ul>

@@ -24,7 +24,7 @@ const CreatePostPage = () => {
 		({ category, subject, type }) => ({
 			categories: category.categories,
 			subjects: subject.subjects,
-			types: type.types
+			types: type.types,
 		})
 	)
 
@@ -33,7 +33,6 @@ const CreatePostPage = () => {
 
 		postSubjects.map((item) => {
 			const temp = subjects.find((item1) => item1._id === item.subject)
-			console.log({ temp })
 			if (temp) {
 				const categoryId = temp.category._id
 				if (
@@ -61,8 +60,8 @@ const CreatePostPage = () => {
 			setPostSubjects([
 				...postSubjects,
 				{
-					subject: ''
-				}
+					subject: '',
+				},
 			])
 		} else {
 			setPostSubjects([...postSubjects])
@@ -96,19 +95,22 @@ const CreatePostPage = () => {
 			postSubjectsFilter.length > 0
 		) {
 			dispatch(
-				createPost({
-					title,
-					description,
-					content,
-					type,
-					categories: postCategoriesFilter,
-					subjects: postSubjectsFilter,
-					keywords: keywords.split(',').map((item) => item.trim())
-				}, resetForm)
+				createPost(
+					{
+						title,
+						description,
+						content,
+						type,
+						categories: postCategoriesFilter,
+						subjects: postSubjectsFilter,
+						keywords: keywords.split(',').map((item) => item.trim()),
+					},
+					resetForm
+				)
 			)
 		} else {
 			toast.error('Nhập đầy đủ dữ liệu bắt buộc', {
-				style: { fontSize: '1.6rem' }
+				style: { fontSize: '1.6rem' },
 			})
 		}
 	}
@@ -142,7 +144,7 @@ const CreatePostPage = () => {
 			</div>
 			<div className='create-post__form-group'>
 				<label htmlFor='' className='create-post__title'>
-					Nhập loại <i>*</i>
+					Chọn loại <i>*</i>
 				</label>
 				<select
 					className='create-post__select'
@@ -161,7 +163,7 @@ const CreatePostPage = () => {
 			</div>
 			<div className='create-post__form-group'>
 				<label htmlFor='' className='create-post__title'>
-					Nhập chủ đề <i>*</i>
+					Chọn chủ đề <i>*</i>
 				</label>
 				{postSubjects.map((item, index) => (
 					<select
@@ -170,7 +172,11 @@ const CreatePostPage = () => {
 						value={item.subject}
 						onChange={(e) => handleChangeSubject(e, index)}
 					>
-						<option value=''>-- Nhập --</option>
+						<option value=''>
+							{index === postSubjects.length - 1
+								? '-- Chọn chủ đề --'
+								: '-- Hủy chủ đề này --'}
+						</option>
 						{subjects &&
 							subjects.length > 0 &&
 							subjects.map((item) => (
@@ -183,7 +189,7 @@ const CreatePostPage = () => {
 			</div>
 			<div className='create-post__form-group'>
 				<label htmlFor='' className='create-post__title'>
-					Nhập dạng <i>*</i>
+					Danh mục (tự động chọn theo chủ đề) <i>*</i>
 				</label>
 				{postCategories.map((item, index) => (
 					<select
@@ -192,7 +198,7 @@ const CreatePostPage = () => {
 						disabled
 						value={item.category}
 					>
-						<option value=''>-- Chọn chủ đề --</option>
+						<option value=''></option>
 						{categories &&
 							categories.length > 0 &&
 							categories.map((item) => (
@@ -210,7 +216,6 @@ const CreatePostPage = () => {
 				<CKEditor
 					editor={DecoupledEditor}
 					onReady={(editor) => {
-						console.log('Editor is ready to use!', editor)
 						editor.ui
 							.getEditableElement()
 							.parentElement.insertBefore(
@@ -224,7 +229,7 @@ const CreatePostPage = () => {
 						setContent(data)
 					}}
 					config={{
-						ckfinder: { uploadUrl: '/img/upload' }
+						ckfinder: { uploadUrl: '/img/upload' },
 					}}
 				/>
 			</div>
