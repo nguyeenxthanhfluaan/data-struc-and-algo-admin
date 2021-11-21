@@ -29,6 +29,8 @@ app.use('/api/auth', require('./routes/auth'))
 // Upload image
 app.post('/img/upload', multipartMiddleware, async (req, res) => {
 	try {
+		console.log({ file: req.files })
+
 		const pathFile = req.files.upload.path
 		const uploadRes = await cloudinary.uploader.upload(pathFile, {
 			upload_preset: 'ml_default',
