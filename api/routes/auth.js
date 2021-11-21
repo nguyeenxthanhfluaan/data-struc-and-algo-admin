@@ -11,7 +11,6 @@ const maxAge = 3 * 24 * 60 * 60
 router.get('/', auth, async (req, res) => {
 	try {
 		const result = await User.findById(req.user)
-		console.log(result)
 		res.json(result)
 	} catch (error) {
 		console.log(error)
@@ -44,15 +43,13 @@ router.post('/', async (req, res) => {
 			}
 
 			const token = jwt.sign({ user: user._id }, 'mysecret', {
-				expiresIn: maxAge
+				expiresIn: maxAge,
 			})
-
-			console.log(token)
 
 			res.cookie('jwt', token, {
 				httpOnly: true,
 				secure: true,
-				maxAge: maxAge * 1000
+				maxAge: maxAge * 1000,
 			})
 			res.json(user)
 		} catch (error) {

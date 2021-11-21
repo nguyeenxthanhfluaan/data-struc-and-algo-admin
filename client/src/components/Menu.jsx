@@ -14,7 +14,7 @@ const Menu = () => {
 
 	const { categories, subjects } = useSelector(({ category, subject }) => ({
 		categories: category.categories,
-		subjects: subject.subjects
+		subjects: subject.subjects,
 	}))
 
 	const [categoryActive, setCategoryActive] = useState(0)
@@ -56,7 +56,7 @@ const Menu = () => {
 					categories.length > 0 &&
 					categories.map((category_item) => (
 						<li
-							key={category_item.id}
+							key={category_item._id}
 							className={`menu__list__item ${
 								categoryActive === category_item._id ? 'active' : ''
 							}`}
@@ -82,7 +82,7 @@ const Menu = () => {
 									)
 									.map((subject_item) => (
 										<li
-											key={`${subject_item._id}`}
+											key={`${category_item._id}${subject_item._id}`}
 											className={`menu__list__item ${
 												subjectActive === subject_item._id
 													? 'active'

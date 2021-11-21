@@ -31,22 +31,13 @@
 		}
 	}
 
-	&__bot {
-		&__list {
-			display: flex;
-			align-items: center;
-			justify-content: center;
+	&__control {
+		&__btn ~ &__btn {
+			margin-left: 15px;
+		}
 
-			&__item {
-				font-size: 1.6rem;
-				color: $white-color;
-				padding: 6px 16px;
-
-				&.active,
-				&:hover {
-					color: #b033f4;
-				}
-			}
+		&__btn__icon {
+			margin-right: 5px;
 		}
 	}
 }

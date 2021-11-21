@@ -12,7 +12,7 @@ const auth = require('../middlewares/auth')
 //          Get all post if no condition
 router.get('/', async (req, res) => {
 	try {
-		const { category, type, keyword, subject } = req.query
+		const { category, type, keyword, subject, sortBy } = req.query
 		console.log(req.query)
 
 		let query = {}
@@ -32,13 +32,25 @@ router.get('/', async (req, res) => {
 			query['post.types'] = { type }
 		}
 
-		console.log({ query })
+		let result = null
 
-		const result = await Post.find(query)
-			.populate({ path: 'type', model: Type })
-			.populate({ path: 'categories.category', model: Category })
-			.populate({ path: 'subjects.subject', model: Subject })
-			.sort({ lastModified: -1 })
+		switch (sortBy) {
+			case 'newest':
+				result = await Post.find(query)
+					.populate({ path: 'type', model: Type })
+					.populate({ path: 'categories.category', model: Category })
+					.populate({ path: 'subjects.subject', model: Subject })
+					.sort({ lastModified: -1 })
+				break
+
+			default:
+				result = await Post.find(query)
+					.populate({ path: 'type', model: Type })
+					.populate({ path: 'categories.category', model: Category })
+					.populate({ path: 'subjects.subject', model: Subject })
+		}
+
+		console.log({ query })
 
 		res.json(search(result, keyword))
 	} catch (error) {
@@ -74,7 +86,7 @@ router.post('/', auth, async (req, res) => {
 			categories,
 			type,
 			subjects,
-			keywords
+			keywords,
 		} = req.body
 		const post = new Post({
 			title,
@@ -83,7 +95,7 @@ router.post('/', auth, async (req, res) => {
 			type,
 			categories,
 			subjects,
-			keywords
+			keywords,
 		})
 		console.log(post)
 		const result = await post.save()
@@ -106,7 +118,7 @@ router.put('/', async (req, res) => {
 			categories,
 			type,
 			subjects,
-			keywords
+			keywords,
 		} = req.body
 
 		const result = await Post.findOneAndUpdate(
@@ -119,7 +131,7 @@ router.put('/', async (req, res) => {
 				type,
 				subjects,
 				keywords,
-				lastModified: Date.now()
+				lastModified: Date.now(),
 			},
 			{ new: true }
 		)
@@ -130,14 +142,14 @@ router.put('/', async (req, res) => {
 	}
 })
 
-router.delete('/', async (req, res) => {
-	try {
-		await Post.deleteMany()
-		res.send('success')
-	} catch (error) {
-		console.log(error)
-		res.status(500).send('Server Error')
-	}
-})
+// router.delete('/', async (req, res) => {
+// 	try {
+// 		await Post.deleteMany()
+// 		res.send('success')
+// 	} catch (error) {
+// 		console.log(error)
+// 		res.status(500).send('Server Error')
+// 	}
+// })
 
 module.exports = router

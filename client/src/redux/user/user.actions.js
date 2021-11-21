@@ -6,10 +6,14 @@ export const loadUser = () => async (dispatch) => {
 		const result = await axios.get('/api/auth')
 		dispatch({
 			type: userTypes.SET_USER,
-			payload: result.data
+			payload: result.data,
 		})
 	} catch (error) {
 		console.log(error)
+		dispatch({
+			type: userTypes.SET_USER,
+			payload: null,
+		})
 	}
 }
 
@@ -22,13 +26,13 @@ export const loginUser =
 				{ email, password },
 				{
 					headers: {
-						'Content-Type': 'application/json'
-					}
+						'Content-Type': 'application/json',
+					},
 				}
 			)
 			dispatch({
 				type: userTypes.SET_USER,
-				payload: result.data
+				payload: result.data,
 			})
 		} catch (error) {
 			console.log(error)
@@ -40,7 +44,7 @@ export const logoutUser = () => async (dispatch) => {
 		await axios.get('/api/auth/logout')
 		dispatch({
 			type: userTypes.SET_USER,
-			payload: null
+			payload: null,
 		})
 	} catch (error) {
 		console.log(error)

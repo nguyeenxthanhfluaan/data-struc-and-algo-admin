@@ -10,7 +10,7 @@ import {
 	faSearch,
 	faUser,
 	faPlusCircle,
-	faSignOutAlt
+	faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { Link } from 'react-router-dom'
@@ -54,26 +54,35 @@ const Header = () => {
 					<div className='header__control'>
 						{user ? (
 							<>
-								<Button onClick={() => history.push('/post/create')}>
+								<Button
+									className='header__control__btn'
+									onClick={() => history.push('/admin')}
+								>
 									<FontAwesomeIcon
+										className='header__control__btn__icon'
 										icon={faPlusCircle}
-										className='header__auth__icon'
 									/>
-									Tạo bài đăng
+									Dashboard
 								</Button>
-								<Button onClick={() => dispatch(logoutUser())}>
+								<Button
+									className='header__control__btn'
+									onClick={() => dispatch(logoutUser())}
+								>
 									<FontAwesomeIcon
+										className='header__control__btn__icon'
 										icon={faSignOutAlt}
-										className='header__auth__icon'
 									/>
 									Đăng xuất
 								</Button>
 							</>
 						) : (
-							<Button onClick={() => history.push('/login')}>
+							<Button
+								className='header__control__btn'
+								onClick={() => history.push('/login')}
+							>
 								<FontAwesomeIcon
+									className='header__control__btn__icon'
 									icon={faUser}
-									className='header__auth__icon'
 								/>
 								Đăng nhập
 							</Button>

@@ -1,7 +1,8 @@
 import userTypes from './user.types'
 
 const initialState = {
-	user: null
+	user: null,
+	isLoading: true,
 }
 
 const reducer = (state = initialState, action) => {
@@ -9,7 +10,8 @@ const reducer = (state = initialState, action) => {
 		case userTypes.SET_USER:
 			return {
 				...state,
-				user: action.payload
+				user: action.payload,
+				isLoading: false,
 			}
 		default:
 			return state

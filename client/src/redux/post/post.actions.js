@@ -3,24 +3,30 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 export const fetchPosts =
-	({ category = null, keyword = null, subject = null, type = null }) =>
+	({
+		category = null,
+		keyword = null,
+		subject = null,
+		type = null,
+		sortBy = null,
+	}) =>
 	async (dispatch) => {
 		try {
 			dispatch({
 				type: postTypes.SET_POSTS,
-				payload: []
+				payload: [],
 			})
 
 			const result = await axios.get('/api/post', {
 				params: {
 					category,
 					keyword,
-					subject
-				}
+					subject,
+				},
 			})
 			dispatch({
 				type: postTypes.SET_POSTS,
-				payload: result.data
+				payload: result.data,
 			})
 		} catch (error) {
 			console.log(error)
@@ -43,7 +49,7 @@ export const createPost =
 	) =>
 	async (dispatch) => {
 		const toastCreating = toast.info('Đang tạo bài đăng', {
-			style: { fontSize: '1.6rem' }
+			style: { fontSize: '1.6rem' },
 		})
 
 		try {
@@ -56,24 +62,24 @@ export const createPost =
 					type,
 					categories,
 					subjects,
-					keywords
+					keywords,
 				}),
 				{
 					headers: {
-						'Content-Type': 'application/json'
-					}
+						'Content-Type': 'application/json',
+					},
 				}
 			)
 			resetForm()
 			toast.dismiss(toastCreating)
 			toast.success('Tạo bài đăng thành công', {
-				style: { fontSize: '1.6rem' }
+				style: { fontSize: '1.6rem' },
 			})
 			console.log(result.data)
 		} catch (error) {
 			toast.dismiss(toastCreating)
 			toast.error('Tạo bài đăng thất bại', {
-				style: { fontSize: '1.6rem' }
+				style: { fontSize: '1.6rem' },
 			})
 			console.log(error)
 		}
@@ -89,7 +95,7 @@ export const updatePost =
 			type,
 			categories,
 			subjects,
-			keywords
+			keywords,
 		},
 		resetForm
 	) =>
@@ -105,22 +111,22 @@ export const updatePost =
 					type,
 					categories,
 					subjects,
-					keywords
+					keywords,
 				}),
 				{
 					headers: {
-						'Content-Type': 'application/json'
-					}
+						'Content-Type': 'application/json',
+					},
 				}
 			)
 			resetForm()
 			toast.success('Sữa bài đăng thành công', {
-				style: { fontSize: '1.6rem' }
+				style: { fontSize: '1.6rem' },
 			})
 		} catch (error) {
 			console.log(error)
 			toast.error('Sữa bài đăng thất bại', {
-				style: { fontSize: '1.6rem' }
+				style: { fontSize: '1.6rem' },
 			})
 		}
 	}

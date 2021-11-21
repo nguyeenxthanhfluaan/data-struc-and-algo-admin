@@ -13,8 +13,6 @@ import { fetchTypes } from './redux/type/type.actions'
 import { loadUser } from './redux/user/user.actions'
 
 import Homepage from './pages/Homepage'
-import CatagoryPage from './pages/CatagoryPage'
-import Menu from './components/Menu'
 import SearchPage from './pages/SearchPage'
 import PostDetailPage from './pages/PostDetailPage'
 import Header from './components/Header'
@@ -22,6 +20,7 @@ import CreatePostPage from './pages/CreatePostPage'
 import UpdatePostPage from './pages/UpdatePostPage'
 import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
+import AdminPage from './pages/Admin/AdminPage'
 
 function App() {
 	const dispatch = useDispatch()
@@ -39,8 +38,13 @@ function App() {
 			<div className='container'>
 				<Switch>
 					<Route path='/' exact component={Homepage} />
-					<Route path='/category/:id' exact component={CatagoryPage} />
 					<Route path='/search' exact component={SearchPage} />
+					<Route
+						path='/post/detail/:id'
+						exact
+						component={PostDetailPage}
+					/>
+					<Route path='/login' exact component={Login} />
 					<PrivateRoute
 						path='/post/create'
 						exact
@@ -51,8 +55,7 @@ function App() {
 						exact
 						component={UpdatePostPage}
 					/>
-					<Route path='/post/:id' exact component={PostDetailPage} />
-					<Route path='/login' exact component={Login} />
+					<PrivateRoute path='/admin' exact component={AdminPage} />
 				</Switch>
 			</div>
 			<ToastContainer />

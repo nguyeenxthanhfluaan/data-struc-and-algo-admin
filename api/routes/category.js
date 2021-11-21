@@ -1,4 +1,5 @@
 const express = require('express')
+const auth = require('../middlewares/auth')
 const router = express.Router()
 const Category = require('../models/Category')
 
@@ -26,10 +27,10 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST api/category
 // @desc    Create a new category
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 	try {
 		const category = new Category({
-			name: req.body.name
+			name: req.body.name,
 		})
 		console.log(category)
 		// const result = 1
@@ -40,14 +41,39 @@ router.post('/', async (req, res) => {
 	}
 })
 
-router.delete('/', async (req, res) => {
+// @route   PUT api/category/:id
+// @desc    Update category
+router.put('/:id', auth, async (req, res) => {
 	try {
-		await Category.deleteMany()
-		res.send('success')
+		const category = await Category.findById(req.params.id)
+		category.name = req.body.name
+		const result = await category.save()
+		res.json(result)
 	} catch (error) {
-		console.log(error)
-		res.status(500).send('Server Error')
+		res.send(error)
 	}
 })
+
+// @route   DELETE api/category/:id
+// @desc    Delete a category
+router.delete('/:id', async (req, res) => {
+	try {
+		await Category.findOneAndDelete({ _id: req.params.id })
+		res.sendStatus(200)
+	} catch (error) {
+		console.log(error)
+		res.sendStatus(500)
+	}
+})
+
+// router.delete('/', async (req, res) => {
+// 	try {
+// 		await Category.deleteMany()
+// 		res.send('success')
+// 	} catch (error) {
+// 		console.log(error)
+// 		res.status(500).send('Server Error')
+// 	}
+// })
 
 module.exports = router

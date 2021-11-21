@@ -3,9 +3,16 @@ import { useSelector } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 
 const PrivateRoute = ({ children, ...props }) => {
-	const { user } = useSelector(({ user }) => ({ user: user.user }))
+	const { user, isLoading } = useSelector(({ user }) => ({
+		user: user.user,
+		isLoading: user.isLoading,
+	}))
 
-	return user ? <Route {...props}>{children}</Route> : <Redirect to='/' />
+	return user || isLoading ? (
+		<Route {...props}>{children}</Route>
+	) : (
+		<Redirect to='/' />
+	)
 }
 
 export default PrivateRoute
