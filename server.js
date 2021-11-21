@@ -36,6 +36,10 @@ app.post('/img/upload', multipartMiddleware, (req, res) => {
 
 	const targetPathUrl = path.join(__dirname, './uploads/' + tempFile.name)
 
+	console.log(targetPathUrl)
+
+	console.log('files: ', req.files)
+
 	if (
 		path.extname(tempFile.originalFilename).toLowerCase() === '.png' ||
 		'.jpg' ||

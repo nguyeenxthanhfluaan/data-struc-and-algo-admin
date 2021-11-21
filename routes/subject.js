@@ -86,14 +86,14 @@ router.delete('/:id', async (req, res) => {
 	}
 })
 
-// router.delete('/', async (req, res) => {
-// 	try {
-// 		await Subject.deleteMany()
-// 		res.send('success')
-// 	} catch (error) {
-// 		console.log(error)
-// 		res.status(500).send('Server Error')
-// 	}
-// })
+router.delete('/', async (req, res) => {
+	try {
+		await Subject.deleteMany()
+		res.send('success')
+	} catch (error) {
+		console.log(error)
+		res.status(500).send('Server Error')
+	}
+})
 
 module.exports = router
