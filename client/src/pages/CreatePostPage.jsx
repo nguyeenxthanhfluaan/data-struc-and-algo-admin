@@ -20,6 +20,8 @@ const CreatePostPage = () => {
 	const [postSubjects, setPostSubjects] = useState([{ subject: '' }])
 	const [keywords, setKeywords] = useState('')
 
+	console.log({ content })
+
 	const { categories, subjects, types } = useSelector(
 		({ category, subject, type }) => ({
 			categories: category.categories,
