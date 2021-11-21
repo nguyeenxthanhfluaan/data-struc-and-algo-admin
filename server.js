@@ -40,7 +40,7 @@ app.post('/img/upload', upload.any(), async (req, res) => {
 		})
 		res.json({
 			uploaded: true,
-			url: `${uploadRes.url}`,
+			url: `${uploadRes.secure_url}`,
 		})
 	} catch (error) {
 		console.log(error)
