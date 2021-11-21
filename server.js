@@ -18,6 +18,10 @@ app.use(express.json({ extended: false }))
 app.use('/upload', express.static('uploads'))
 app.use(cookieParser())
 
+// listening
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => console.log(`listening at port ${PORT}`))
+
 // route
 app.use('/api/post', require('./routes/post'))
 app.use('/api/category', require('./routes/category'))
@@ -41,7 +45,7 @@ app.post('/img/upload', multipartMiddleware, (req, res) => {
 		fs.rename(tempPathFile, targetPathUrl, (err) => {
 			res.json({
 				uploaded: true,
-				url: `http://localhost:5000/upload/${tempFile.originalFilename}`,
+				url: `http://localhost:${PORT}/upload/${tempFile.originalFilename}`,
 			})
 			if (err) console.log(err)
 		})
@@ -56,7 +60,3 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 	})
 }
-
-// listening
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`listening at port ${PORT}`))
