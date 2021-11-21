@@ -22,14 +22,14 @@ export const updateCategory =
 			const result = await axios.put(`/api/category/${_id}`, {
 				name,
 			})
-			toast.success('Thêm danh mục thành công')
+			toast.success('Chỉnh sửa danh mục thành công')
 			dispatch({
 				type: categoryTypes.UPDATE_CATEGORY,
 				payload: result.data,
 			})
 		} catch (error) {
 			console.log({ error })
-			toast.error('Thêm danh mục thất bại')
+			toast.error('Chỉnh sửa danh mục thất bại')
 		}
 	}
 
@@ -63,6 +63,6 @@ export const deleteCategory =
 			})
 		} catch (error) {
 			console.log({ error })
-			toast.error('Thêm danh mục thất bại')
+			toast.error('Xóa danh mục thất bại')
 		}
 	}

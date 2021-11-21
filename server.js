@@ -2,6 +2,7 @@ const express = require('express')
 const connectDb = require('./config/db')
 const multiparty = require('connect-multiparty')
 const cookieParser = require('cookie-parser')
+const { cloudinary } = require('./config/cloudinary')
 const path = require('path')
 const fs = require('fs')
 
@@ -13,14 +14,10 @@ const multipartMiddleware = multiparty({ uploadDir: './images' })
 connectDb()
 
 // Translate json
-app.use(express.json({ extended: false }))
+app.use(express.json({ limit: '50mb' }))
 // Static file
 app.use('/upload', express.static('uploads'))
 app.use(cookieParser())
-
-// listening
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log(`listening at port ${PORT}`))
 
 // route
 app.use('/api/post', require('./routes/post'))
@@ -30,29 +27,19 @@ app.use('/api/type', require('./routes/type'))
 app.use('/api/auth', require('./routes/auth'))
 
 // Upload image
-app.post('/img/upload', multipartMiddleware, (req, res) => {
-	const tempFile = req.files.upload
-	const tempPathFile = tempFile.path
-
-	const targetPathUrl = path.join(__dirname, './uploads/' + tempFile.name)
-
-	console.log(targetPathUrl)
-
-	console.log('files: ', req.files)
-
-	if (
-		path.extname(tempFile.originalFilename).toLowerCase() === '.png' ||
-		'.jpg' ||
-		'.jpeg' ||
-		'.gif'
-	) {
-		fs.rename(tempPathFile, targetPathUrl, (err) => {
-			res.json({
-				uploaded: true,
-				url: `http://localhost:${PORT}/upload/${tempFile.originalFilename}`,
-			})
-			if (err) console.log(err)
+app.post('/img/upload', multipartMiddleware, async (req, res) => {
+	try {
+		const pathFile = req.files.upload.path
+		const uploadRes = await cloudinary.uploader.upload(pathFile, {
+			upload_preset: 'ml_default',
 		})
+		res.json({
+			uploaded: true,
+			url: `${uploadRes.url}`,
+		})
+	} catch (error) {
+		console.log(error)
+		res.sendStatus(500)
 	}
 })
 
@@ -64,3 +51,7 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 	})
 }
+
+// listening
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => console.log(`listening at port ${PORT}`))

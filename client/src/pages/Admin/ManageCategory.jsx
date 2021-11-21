@@ -32,6 +32,8 @@ const ManageCategory = () => {
 	const handleAddCategory = (e) => {
 		e.preventDefault()
 		dispatch(addCategory({ name: newCategory }))
+		setActivatedAddCategory(false)
+		setNewCategory('')
 	}
 
 	return (
@@ -42,8 +44,9 @@ const ManageCategory = () => {
 					<FormCategory key={item._id} category={item} />
 				))}
 
-			<div
+			<form
 				className='manage-category__form-group'
+				onSubmit={handleAddCategory}
 			>
 				{activatedAddCategory ? (
 					<>
@@ -54,6 +57,7 @@ const ManageCategory = () => {
 							onChange={(e) => setNewCategory(e.target.value)}
 						/>
 						<Button
+							type='button'
 							className='manage-category__btn cancel'
 							onClick={() => setActivatedAddCategory(false)}
 						>
@@ -64,6 +68,7 @@ const ManageCategory = () => {
 							Hủy bỏ
 						</Button>
 						<Button
+							type='submit'
 							className='manage-category__btn save'
 							onClick={handleAddCategory}
 						>
@@ -76,6 +81,7 @@ const ManageCategory = () => {
 					</>
 				) : (
 					<Button
+						type='button'
 						className='manage-category__btn add'
 						onClick={() => setActivatedAddCategory(true)}
 					>
@@ -86,7 +92,7 @@ const ManageCategory = () => {
 						Thêm danh mục
 					</Button>
 				)}
-			</div>
+			</form>
 		</>
 	)
 }
@@ -98,12 +104,14 @@ const FormCategory = ({ category }) => {
 	const [categoryName, setCategoryName] = useState(category.name)
 
 	const handleSubmit = (e) => {
+		e.preventDefault()
 		dispatch(
 			updateCategory({
 				...category,
 				name: categoryName,
 			})
 		)
+		setActivatedEdit(false)
 	}
 
 	const handleDeleteCategory = (e) => {
@@ -111,7 +119,7 @@ const FormCategory = ({ category }) => {
 	}
 
 	return (
-		<div className='manage-category__form-group' onSubmit={handleSubmit}>
+		<form className='manage-category__form-group' onSubmit={handleSubmit}>
 			<input
 				type='text'
 				className='manage-category__input'
@@ -122,6 +130,7 @@ const FormCategory = ({ category }) => {
 			{activatedEdit ? (
 				<>
 					<Button
+						type='button'
 						className='manage-category__btn cancel'
 						onClick={() => setActivatedEdit(false)}
 					>
@@ -132,6 +141,7 @@ const FormCategory = ({ category }) => {
 						Hủy bỏ
 					</Button>
 					<Button
+						type='submit'
 						className='manage-category__btn save'
 						onClick={handleSubmit}
 					>
@@ -144,6 +154,7 @@ const FormCategory = ({ category }) => {
 				</>
 			) : (
 				<Button
+					type='button'
 					className='manage-category__btn edit'
 					onClick={() => setActivatedEdit(true)}
 				>
@@ -155,6 +166,7 @@ const FormCategory = ({ category }) => {
 				</Button>
 			)}
 			<Button
+				type='button'
 				className='manage-category__btn delete'
 				onClick={handleDeleteCategory}
 			>
@@ -164,7 +176,7 @@ const FormCategory = ({ category }) => {
 				/>
 				Xóa
 			</Button>
-		</div>
+		</form>
 	)
 }
 
