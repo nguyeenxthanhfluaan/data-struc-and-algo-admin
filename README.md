@@ -8,21 +8,19 @@ Clone the repository:
 $ git clone https://github.com/buivantann/data-structure-search.git
 ```
 
-install some package 
- 
-```
-$ npm i ...
-```
-
-
-cd api
- 
-```
-$ npm run start
-```
-
-cd client
+install package
 
 ```
-$ npm run start
+$ npm i
+$ cd server
+$ npm i
+$ cd ../client
+$ npm i
+```
+
+run
+
+```
+$ cd ../
+$ npm run dev
 ```
