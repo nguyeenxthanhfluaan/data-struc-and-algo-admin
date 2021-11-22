@@ -7,7 +7,7 @@
 		"client": "cd client && npm start",
 		"server": "cd api && nodemon server.js",
 		"dev": "concurrently \"npm run client\" \"npm run server\"",
-		"start": "node server.js",
+		"start": "cd api && nodemon server.js",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},
 	"repository": {

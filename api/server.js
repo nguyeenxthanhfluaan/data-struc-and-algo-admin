@@ -45,10 +45,13 @@ app.post('/img/upload', upload.any(), async (req, res) => {
 	}
 })
 
+console.log('ngoai', process.env.NODE_ENV)
+
 // Hosting
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/build'))
+	app.use(express.static('../client/build'))
 	app.get('*', (req, res) => {
+		console.log('123')
 		console.log(__dirname)
 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
 	})
