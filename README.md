@@ -24,3 +24,9 @@ run
 $ cd ../
 $ npm run dev
 ```
+
+deployment
+
+```
+https://sleepy-oasis-67461.herokuapp.com/
+```
