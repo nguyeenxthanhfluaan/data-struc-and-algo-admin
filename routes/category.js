@@ -2,6 +2,7 @@ const express = require('express')
 const auth = require('../middlewares/auth')
 const router = express.Router()
 const Category = require('../models/Category')
+const Subject = require('../models/Subject')
 
 // @route   GET api/category
 // @desc    Get all category
@@ -58,7 +59,9 @@ router.put('/:id', auth, async (req, res) => {
 // @desc    Delete a category
 router.delete('/:id', async (req, res) => {
 	try {
-		await Category.findOneAndDelete({ _id: req.params.id })
+		const promise1 = Category.findOneAndDelete({ _id: req.params.id })
+		const promise2 = Subject.deleteMany({ category: req.params.id })
+		await Promise.all([promise1, promise2])
 		res.sendStatus(200)
 	} catch (error) {
 		console.log(error)

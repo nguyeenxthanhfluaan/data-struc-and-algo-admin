@@ -39,4 +39,31 @@
 			background-color: #4169e1;
 		}
 	}
+
+	&__modal {
+		padding: 20px;
+
+		&__title {
+			font-size: 20px;
+			font-weight: 600;
+			margin-bottom: 20px;
+		}
+
+		&__btns {
+			display: flex;
+			justify-content: center;
+		}
+		&__btn {
+			& ~ & {
+				margin-left: 40px;
+			}
+			&.cancel {
+				background-color: #d3d3d3;
+				color: #000000;
+			}
+			&.delete {
+				background-color: #dc143c;
+			}
+		}
+	}
 }

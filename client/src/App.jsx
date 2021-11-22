@@ -16,7 +16,6 @@ import Homepage from './pages/Homepage'
 import SearchPage from './pages/SearchPage'
 import PostDetailPage from './pages/PostDetailPage'
 import Header from './components/Header'
-import CreatePostPage from './pages/CreatePostPage'
 import UpdatePostPage from './pages/UpdatePostPage'
 import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
@@ -45,11 +44,6 @@ function App() {
 						component={PostDetailPage}
 					/>
 					<Route path='/login' exact component={Login} />
-					<PrivateRoute
-						path='/post/create'
-						exact
-						component={CreatePostPage}
-					/>
 					<PrivateRoute
 						path='/post/update'
 						exact

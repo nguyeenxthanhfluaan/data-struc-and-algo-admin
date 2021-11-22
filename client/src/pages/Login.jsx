@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { loadUser, loginUser } from '../redux/user/user.actions'
 
 import Button from '../components/Button'
+import Helmet from '../components/Helmet'
 
 const Login = () => {
 	const dispatch = useDispatch()
@@ -27,33 +28,35 @@ const Login = () => {
 	}
 
 	return (
-		<div className='login'>
-			<form action='' className='login__form' onSubmit={handleSubmit}>
-				<div className='login__form__group'>
-					<label htmlFor='' className='login__form__label'>
-						Email
-					</label>
-					<input
-						type='text'
-						className='login__form__input'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div className='login__form__group'>
-					<label htmlFor='' className='login__form__label'>
-						Mật khẩu
-					</label>
-					<input
-						type='text'
-						className='login__form__input'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</div>
-				<Button onClick={handleSubmit}>Đăng nhập</Button>
-			</form>
-		</div>
+		<Helmet title='Đăng nhập'>
+			<div className='login'>
+				<form action='' className='login__form' onSubmit={handleSubmit}>
+					<div className='login__form__group'>
+						<label htmlFor='' className='login__form__label'>
+							Email
+						</label>
+						<input
+							type='text'
+							className='login__form__input'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</div>
+					<div className='login__form__group'>
+						<label htmlFor='' className='login__form__label'>
+							Mật khẩu
+						</label>
+						<input
+							type='text'
+							className='login__form__input'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</div>
+					<Button onClick={handleSubmit}>Đăng nhập</Button>
+				</form>
+			</div>
+		</Helmet>
 	)
 }
 

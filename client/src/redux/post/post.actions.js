@@ -22,6 +22,8 @@ export const fetchPosts =
 					category,
 					keyword,
 					subject,
+					type,
+					sortBy,
 				},
 			})
 			dispatch({
@@ -86,19 +88,16 @@ export const createPost =
 	}
 
 export const updatePost =
-	(
-		{
-			_id,
-			title,
-			description,
-			content,
-			type,
-			categories,
-			subjects,
-			keywords,
-		},
-		resetForm
-	) =>
+	({
+		_id,
+		title,
+		description,
+		content,
+		type,
+		categories,
+		subjects,
+		keywords,
+	}) =>
 	async (dispatch) => {
 		try {
 			const result = await axios.put(
@@ -119,7 +118,6 @@ export const updatePost =
 					},
 				}
 			)
-			resetForm()
 			toast.success('Sữa bài đăng thành công', {
 				style: { fontSize: '1.6rem' },
 			})

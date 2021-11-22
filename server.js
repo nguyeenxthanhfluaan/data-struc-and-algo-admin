@@ -1,15 +1,12 @@
 const express = require('express')
 const connectDb = require('./config/db')
-const multiparty = require('connect-multiparty')
 const multer = require('multer')
 const cookieParser = require('cookie-parser')
 const { cloudinary } = require('./config/cloudinary')
 const path = require('path')
-const fs = require('fs')
 
 const app = express()
 
-const multipartMiddleware = multiparty({ uploadDir: './images' })
 const upload = multer()
 
 // Connect db
@@ -28,7 +25,7 @@ app.use('/api/subject', require('./routes/subject'))
 app.use('/api/type', require('./routes/type'))
 app.use('/api/auth', require('./routes/auth'))
 
-// Upload image
+// Upload image for CKEdtitor
 app.post('/img/upload', upload.any(), async (req, res) => {
 	try {
 		const mimetype = req.files[0].mimetype

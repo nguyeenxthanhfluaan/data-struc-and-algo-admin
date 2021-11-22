@@ -1,21 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import logo from '../images/logo.png'
-import { fetchCategory } from '../redux/category/category.actions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faSearch,
 	faUser,
-	faPlusCircle,
 	faSignOutAlt,
+	faTools,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { Link } from 'react-router-dom'
 import Button from './Button'
-import Marginer from './Marginer'
 import { logoutUser } from '../redux/user/user.actions'
 
 const Header = () => {
@@ -60,7 +58,7 @@ const Header = () => {
 								>
 									<FontAwesomeIcon
 										className='header__control__btn__icon'
-										icon={faPlusCircle}
+										icon={faTools}
 									/>
 									Dashboard
 								</Button>

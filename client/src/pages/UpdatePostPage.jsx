@@ -39,12 +39,16 @@ const CreatePostPage = () => {
 		setTitle(post.title)
 		setDescription(post.description)
 		setContent(post.content)
-		setType(post.type._id)
+		post.type && setType(post.type._id)
 		setPostCategories(
-			post.categories.map((item) => ({ category: item.category._id }))
+			post.categories
+				.filter((item1) => !!item1.category)
+				.map((item2) => ({ category: item2.category._id }))
 		)
 		setPostSubjects([
-			...post.subjects.map((item) => ({ subject: item.subject._id })),
+			...post.subjects
+				.filter((item1) => !!item1.subject)
+				.map((item2) => ({ subject: item2.subject._id })),
 			{
 				subject: '',
 			},
@@ -52,14 +56,14 @@ const CreatePostPage = () => {
 		setKeywords(post.keywords.join(','))
 	}, [post])
 
-	console.log({ postCategories })
-
 	useEffect(() => {
 		let postCategoriesTemp = []
 
 		postSubjects.map((item) => {
+			// Get category from subjects array
+			// If category exist, add it to postCategoryTemp
+			// But If postCategoryTemp already has that category, ignore
 			const temp = subjects.find((item1) => item1._id === item.subject)
-			console.log({ temp })
 			if (temp) {
 				const categoryId = temp.category._id
 				if (
@@ -71,6 +75,8 @@ const CreatePostPage = () => {
 				}
 			}
 		})
+		// If there is no category then add a empty category
+		// to display option empty value
 		postCategoriesTemp.length > 0
 			? setPostCategories(postCategoriesTemp)
 			: setPostCategories([{ category: '' }])
@@ -122,19 +128,16 @@ const CreatePostPage = () => {
 			postSubjectsFilter.length > 0
 		) {
 			dispatch(
-				updatePost(
-					{
-						_id: post._id,
-						title,
-						description,
-						content,
-						type,
-						categories: postCategoriesFilter,
-						subjects: postSubjectsFilter,
-						keywords: keywords.split(',').map((item) => item.trim()),
-					},
-					resetForm
-				)
+				updatePost({
+					_id: post._id,
+					title,
+					description,
+					content,
+					type,
+					categories: postCategoriesFilter,
+					subjects: postSubjectsFilter,
+					keywords: keywords.split(',').map((item) => item.trim()),
+				})
 			)
 		} else {
 			toast.error('Nhập đầy đủ dữ liệu bắt buộc', {
@@ -245,11 +248,11 @@ const CreatePostPage = () => {
 					editor={DecoupledEditor}
 					onReady={(editor) => {
 						console.log('Editor is ready to use!', editor)
-						editor.ui
-							.getEditableElement()
-							.parentElement.insertBefore(
-								editor.ui.view.toolbar.element,
-								editor.ui.getEditableElement()
+						editor?.ui
+							?.getEditableElement()
+							?.parentElement.insertBefore(
+								editor?.ui.view.toolbar.element,
+								editor?.ui.getEditableElement()
 							)
 					}}
 					data={content}

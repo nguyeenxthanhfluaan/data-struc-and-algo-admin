@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 
 		if (type) {
 			console.log('co type')
-			query['post.types'] = { type }
+			query.type = type
 		}
 
 		let result = null
@@ -42,7 +42,13 @@ router.get('/', async (req, res) => {
 					.populate({ path: 'subjects.subject', model: Subject })
 					.sort({ lastModified: -1 })
 				break
-
+			case 'oldest':
+				result = await Post.find(query)
+					.populate({ path: 'type', model: Type })
+					.populate({ path: 'categories.category', model: Category })
+					.populate({ path: 'subjects.subject', model: Subject })
+					.sort({ lastModified: 1 })
+				break
 			default:
 				result = await Post.find(query)
 					.populate({ path: 'type', model: Type })

@@ -17,6 +17,7 @@ import {
 } from '../../redux/category/category.actions'
 
 import Button from '../../components/Button'
+import Modal from '../../components/Modal'
 
 const ManageCategory = () => {
 	const dispatch = useDispatch()
@@ -103,6 +104,8 @@ const FormCategory = ({ category }) => {
 	const [activatedEdit, setActivatedEdit] = useState(false)
 	const [categoryName, setCategoryName] = useState(category.name)
 
+	const [activatedModal, setActivatedModal] = useState(false)
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		dispatch(
@@ -115,6 +118,7 @@ const FormCategory = ({ category }) => {
 	}
 
 	const handleDeleteCategory = (e) => {
+		setActivatedModal(false)
 		dispatch(deleteCategory({ _id: category._id }))
 	}
 
@@ -168,7 +172,7 @@ const FormCategory = ({ category }) => {
 			<Button
 				type='button'
 				className='manage-category__btn delete'
-				onClick={handleDeleteCategory}
+				onClick={() => setActivatedModal(true)}
 			>
 				<FontAwesomeIcon
 					icon={faTrashAlt}
@@ -176,6 +180,32 @@ const FormCategory = ({ category }) => {
 				/>
 				Xóa
 			</Button>
+			{activatedModal && (
+				<Modal setActivated={setActivatedModal}>
+					<div className='manage-category__modal'>
+						<h6 className='manage-category__modal__title'>
+							Bạn có muốn xóa danh mục này và tất cả chủ đề của nó không
+							?
+						</h6>
+						<div className='manage-category__modal__btns'>
+							<Button
+								type='button'
+								className='manage-category__modal__btn cancel'
+								onClick={() => setActivatedModal(false)}
+							>
+								Quay lại
+							</Button>
+							<Button
+								type='button'
+								className='manage-category__modal__btn delete'
+								onClick={handleDeleteCategory}
+							>
+								Xóa
+							</Button>
+						</div>
+					</div>
+				</Modal>
+			)}
 		</form>
 	)
 }

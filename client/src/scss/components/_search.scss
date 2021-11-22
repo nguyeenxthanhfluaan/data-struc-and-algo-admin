@@ -6,10 +6,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-evenly;
+		flex-wrap: wrap;
 
 		&__text {
 			font-size: 1.8rem;
-			padding: 20px 0;
 
 			q {
 				color: $sub-color;
@@ -18,12 +18,9 @@
 	}
 
 	&__filter {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-
 		&__group {
 			display: flex;
+			padding: 20px 0;
 		}
 
 		&__input {
