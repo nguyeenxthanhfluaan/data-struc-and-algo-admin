@@ -4,6 +4,7 @@ const Type = require('../models/Type')
 
 // @route   GET api/type
 // @desc    Get all types
+// @access  Public
 router.get('/', async (req, res) => {
 	try {
 		const result = await Type.find()
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
 
 // @route   GET api/type/:id
 // @desc    Get type by id
+// @access  Public
 router.get('/:id', async (req, res) => {
 	try {
 		const result = await Type.findById(req.params.id)
@@ -26,10 +28,11 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST api/type
 // @desc    Create a new type
+// @access  Private
 router.post('/', async (req, res) => {
 	try {
 		const type = new Type({
-			name: req.body.name
+			name: req.body.name,
 		})
 		const result = await type.save()
 		res.json(result)
@@ -38,14 +41,17 @@ router.post('/', async (req, res) => {
 	}
 })
 
-router.delete('/', async (req, res) => {
-	try {
-		await Type.deleteMany()
-		res.send('success')
-	} catch (error) {
-		console.log(error)
-		res.status(500).send('Server Error')
-	}
-})
+// // @route   DELETE api/type
+// // @desc    Delete all types
+// // @access  Private
+// router.delete('/', async (req, res) => {
+// 	try {
+// 		await Type.deleteMany()
+// 		res.send('delete all type success')
+// 	} catch (error) {
+// 		console.log(error)
+// 		res.status(500).send('Server Error')
+// 	}
+// })
 
 module.exports = router

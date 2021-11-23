@@ -5,6 +5,7 @@ const Category = require('../models/Category')
 
 // @route   GET api/subject
 // @desc    Get all subject
+// @access  Public
 router.get('/', async (req, res) => {
 	try {
 		const result = await Subject.find().populate({
@@ -20,6 +21,7 @@ router.get('/', async (req, res) => {
 
 // @route   GET api/category/:id
 // @desc    Get subject by id
+// @access  Public
 router.get('/:id', async (req, res) => {
 	try {
 		const result = await Subject.findById(req.params.id)
@@ -31,6 +33,7 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST api/subject
 // @desc    Create a new subject
+// @access  Private
 router.post('/', async (req, res) => {
 	try {
 		const subject = new Subject({
@@ -54,6 +57,7 @@ router.post('/', async (req, res) => {
 
 // @route   PUT api/subject/:id
 // @desc    Delete a subject
+// @access  Private
 router.put('/:id', async (req, res) => {
 	try {
 		if (!req.body.name) {
@@ -74,8 +78,9 @@ router.put('/:id', async (req, res) => {
 	}
 })
 
-// @route   POST api/subject/:id
+// @route   DELETE api/subject/:id
 // @desc    Delete a subject
+// @access  Private
 router.delete('/:id', async (req, res) => {
 	try {
 		await Subject.findByIdAndDelete(req.params.id)
@@ -86,14 +91,17 @@ router.delete('/:id', async (req, res) => {
 	}
 })
 
-router.delete('/', async (req, res) => {
-	try {
-		await Subject.deleteMany()
-		res.send('success')
-	} catch (error) {
-		console.log(error)
-		res.status(500).send('Server Error')
-	}
-})
+// // @route   DELETE api/subject
+// // @desc    Delete all subjects
+// // @access  Private
+// router.delete('/', async (req, res) => {
+// 	try {
+// 		await Subject.deleteMany()
+// 		res.send('delete all subjects success')
+// 	} catch (error) {
+// 		console.log(error)
+// 		res.status(500).send('Server Error')
+// 	}
+// })
 
 module.exports = router

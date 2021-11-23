@@ -58,6 +58,10 @@ const CreatePostPage = () => {
 			return setPostSubjects([...postSubjects])
 		}
 
+		if (postSubjects.some((item) => item.subject === event.target.value)) {
+			return
+		}
+
 		postSubjects[index].subject = event.target.value
 		if (index === postSubjects.length - 1) {
 			setPostSubjects([

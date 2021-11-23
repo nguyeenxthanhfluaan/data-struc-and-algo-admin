@@ -6,6 +6,7 @@ const Subject = require('../models/Subject')
 
 // @route   GET api/category
 // @desc    Get all category
+// @access  Public
 router.get('/', async (req, res) => {
 	try {
 		const result = await Category.find()
@@ -17,6 +18,7 @@ router.get('/', async (req, res) => {
 
 // @route   GET api/category/:id
 // @desc    Get all category
+// @access  Public
 router.get('/:id', async (req, res) => {
 	try {
 		const result = await Category.findById(req.params.id)
@@ -28,6 +30,7 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST api/category
 // @desc    Create a new category
+// @access  Private
 router.post('/', auth, async (req, res) => {
 	try {
 		const category = new Category({
@@ -44,6 +47,7 @@ router.post('/', auth, async (req, res) => {
 
 // @route   PUT api/category/:id
 // @desc    Update category
+// @access  Private
 router.put('/:id', auth, async (req, res) => {
 	try {
 		const category = await Category.findById(req.params.id)
@@ -57,6 +61,7 @@ router.put('/:id', auth, async (req, res) => {
 
 // @route   DELETE api/category/:id
 // @desc    Delete a category
+// @access  Private
 router.delete('/:id', async (req, res) => {
 	try {
 		const promise1 = Category.findOneAndDelete({ _id: req.params.id })
@@ -69,6 +74,9 @@ router.delete('/:id', async (req, res) => {
 	}
 })
 
+// // @route   DELETE api/category/
+// // @desc    Delete all categories
+// // @access  Private
 // router.delete('/', async (req, res) => {
 // 	try {
 // 		await Category.deleteMany()

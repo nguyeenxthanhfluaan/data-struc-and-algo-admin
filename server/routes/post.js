@@ -8,8 +8,8 @@ const Subject = require('../models/Subject')
 const auth = require('../middlewares/auth')
 
 // @route   GET api/post?category=algorithm&keyword=test
-// @desc    Get posts with conditions in query string,
-//          Get all post if no condition
+// @desc    Get posts with conditions in query string, Get all post if no condition
+// @access  Public
 router.get('/', async (req, res) => {
 	try {
 		const { category, type, keyword, subject, sortBy } = req.query
@@ -65,8 +65,9 @@ router.get('/', async (req, res) => {
 	}
 })
 
-// @route   GET api/post/618c8ed8b52e4e9b41736c4d
+// @route   GET api/post/:id
 // @desc    Get a post by id
+// @access  Public
 router.get('/:id', async (req, res) => {
 	try {
 		const result = await Post.findById(req.params.id)
@@ -83,6 +84,7 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST /api/post
 // @desc    Create a post
+// @access  Private
 router.post('/', auth, async (req, res) => {
 	try {
 		const {
@@ -114,6 +116,7 @@ router.post('/', auth, async (req, res) => {
 
 // @route   POST /api/post
 // @desc    Update a post
+// @access  Private
 router.put('/', async (req, res) => {
 	try {
 		const {
@@ -148,14 +151,14 @@ router.put('/', async (req, res) => {
 	}
 })
 
-// router.delete('/', async (req, res) => {
-// 	try {
-// 		await Post.deleteMany()
-// 		res.send('success')
-// 	} catch (error) {
-// 		console.log(error)
-// 		res.status(500).send('Server Error')
-// 	}
-// })
+router.delete('/', async (req, res) => {
+	try {
+		await Post.deleteMany()
+		res.send('delete all success')
+	} catch (error) {
+		console.log(error)
+		res.status(500).send('Server Error')
+	}
+})
 
 module.exports = router

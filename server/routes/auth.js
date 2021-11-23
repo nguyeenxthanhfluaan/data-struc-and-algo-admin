@@ -8,6 +8,7 @@ const maxAge = 3 * 24 * 60 * 60
 
 // @route   GET api/auth
 // @desc    Get user
+// @access  Private
 router.get('/', auth, async (req, res) => {
 	try {
 		const result = await User.findById(req.user)
@@ -19,6 +20,7 @@ router.get('/', auth, async (req, res) => {
 
 // @route   GET api/auth/logout
 // @desc    Get user
+// @access  Private
 router.get('/logout', auth, async (req, res) => {
 	try {
 		res.cookie('jwt', '', { maxAge: 1 })
@@ -30,6 +32,7 @@ router.get('/logout', auth, async (req, res) => {
 
 // @route   POST api/auth
 // @desc    Login
+// @access  Public
 router.post('/', async (req, res) => {
 	try {
 		const { email, password } = req.body
