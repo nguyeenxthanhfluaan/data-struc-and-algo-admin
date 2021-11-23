@@ -1,7 +1,7 @@
 import categoryTypes from './category.types'
 
 const initialState = {
-	categories: [],
+	categories: null, // normal value is []
 }
 
 const reducer = (state = initialState, action) => {

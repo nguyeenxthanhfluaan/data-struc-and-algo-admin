@@ -1,7 +1,7 @@
 import typeTypes from './type.types'
 
 const initialState = {
-	types: []
+	types: null, // normal value = []
 }
 
 const reducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const reducer = (state = initialState, action) => {
 		case typeTypes.SET_TYPES:
 			return {
 				...state,
-				types: action.payload
+				types: action.payload,
 			}
 		default:
 			return state

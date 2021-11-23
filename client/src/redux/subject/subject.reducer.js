@@ -1,7 +1,7 @@
 import subjectTypes from './subject.types'
 
 const initialState = {
-	subjects: [],
+	subjects: null, // normal value = []
 }
 
 const reducer = (state = initialState, action) => {

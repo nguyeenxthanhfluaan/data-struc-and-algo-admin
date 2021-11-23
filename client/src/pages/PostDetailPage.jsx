@@ -17,9 +17,10 @@ const PostDetailPage = () => {
 	const history = useHistory()
 	const { id } = useParams()
 
-	const { post, posts } = useSelector(({ post }) => ({
+	const { post, posts, user } = useSelector(({ post, user }) => ({
 		post: post.post,
 		posts: post.posts,
+		user: user.user,
 	}))
 
 	useEffect(() => {
@@ -34,13 +35,15 @@ const PostDetailPage = () => {
 					<div>
 						<div className='post-detail__header'>
 							<h3 className='post-detail__header__text'>{post.title}</h3>
-							<Button
-								onClick={() => history.push('/post/update')}
-								className='post-detail__header__btn'
-							>
-								<FontAwesomeIcon icon={faEdit} />
-								Sữa bài đăng
-							</Button>
+							{user && (
+								<Button
+									onClick={() => history.push('/post/update')}
+									className='post-detail__header__btn'
+								>
+									<FontAwesomeIcon icon={faEdit} />
+									Sữa bài đăng
+								</Button>
+							)}
 						</div>
 						<Marginer margin='50px' separate />
 						<div

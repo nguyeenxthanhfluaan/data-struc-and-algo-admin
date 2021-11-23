@@ -10,7 +10,7 @@ export const rootReducer = combineReducers({
 	post: postReducer,
 	subject: subjectReducer,
 	type: typeReducer,
-	user: userReducer
+	user: userReducer,
 })
 
 export default rootReducer
