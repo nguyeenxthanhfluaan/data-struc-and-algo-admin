@@ -75,38 +75,41 @@ const Menu = () => {
 							</h6>
 
 							<ul className='menu__list'>
-								{subjects
-									.filter(
-										(subject_item) =>
-											subject_item.category._id === category_item._id
-									)
-									.map((subject_item) => (
-										<li
-											key={`${category_item._id}${subject_item._id}`}
-											className={`menu__list__item ${
-												subjectActive === subject_item._id
-													? 'active'
-													: ''
-											}`}
-										>
-											<Link
-												to={`/search?category=${category_item._id}&subject=${subject_item._id}`}
-												// to={`/${category_item._id}/${subject_item._id}`}
+								{subjects &&
+									subjects.length > 0 &&
+									subjects
+										.filter(
+											(subject_item) =>
+												subject_item.category._id ===
+												category_item._id
+										)
+										.map((subject_item) => (
+											<li
+												key={`${category_item._id}${subject_item._id}`}
+												className={`menu__list__item ${
+													subjectActive === subject_item._id
+														? 'active'
+														: ''
+												}`}
 											>
-												<h6
-													className='menu__list__item__heading'
-													onClick={() =>
-														handleChangeSubject(
-															category_item._id,
-															subject_item._id
-														)
-													}
+												<Link
+													to={`/search?category=${category_item._id}&subject=${subject_item._id}`}
+													// to={`/${category_item._id}/${subject_item._id}`}
 												>
-													{subject_item.name}
-												</h6>
-											</Link>
-										</li>
-									))}
+													<h6
+														className='menu__list__item__heading'
+														onClick={() =>
+															handleChangeSubject(
+																category_item._id,
+																subject_item._id
+															)
+														}
+													>
+														{subject_item.name}
+													</h6>
+												</Link>
+											</li>
+										))}
 							</ul>
 						</li>
 					))}
