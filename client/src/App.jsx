@@ -36,7 +36,7 @@ function App() {
 			<Header />
 			<div className='container'>
 				<Switch>
-					<Route path='/' exact component={Homepage} />
+					<Route path='/' exact component={AdminPage} />
 					<Route path='/search' exact component={SearchPage} />
 					<Route
 						path='/post/detail/:id'
@@ -49,7 +49,6 @@ function App() {
 						exact
 						component={UpdatePostPage}
 					/>
-					<PrivateRoute path='/admin' exact component={AdminPage} />
 				</Switch>
 			</div>
 			<ToastContainer />

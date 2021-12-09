@@ -17,8 +17,8 @@ const CreatePostPage = () => {
 	const [description, setDescription] = useState('')
 	const [content, setContent] = useState('')
 	const [type, setType] = useState('')
-	const [postCategories, setPostCategories] = useState([{ category: '' }])
-	const [postSubjects, setPostSubjects] = useState([{ subject: '' }])
+	const [category, setCategory] = useState('')
+	const [subject, setSubject] = useState('')
 	const [keywords, setKeywords] = useState('')
 
 	console.log({ content })
@@ -31,76 +31,18 @@ const CreatePostPage = () => {
 		})
 	)
 
-	useEffect(() => {
-		let postCategoriesTemp = []
-
-		postSubjects.map((item) => {
-			const temp = subjects.find((item1) => item1._id === item.subject)
-			if (temp) {
-				const categoryId = temp.category._id
-				if (
-					!postCategoriesTemp.some(
-						(item2) => item2.category === categoryId
-					)
-				) {
-					postCategoriesTemp.push({ category: categoryId })
-				}
-			}
-		})
-		postCategoriesTemp.length > 0
-			? setPostCategories(postCategoriesTemp)
-			: setPostCategories([{ category: '' }])
-	}, [postSubjects])
-
-	const handleChangeSubject = (event, index) => {
-		if (event.target.value === '') {
-			postSubjects.splice(index, 1)
-			return setPostSubjects([...postSubjects])
-		}
-
-		if (postSubjects.some((item) => item.subject === event.target.value)) {
-			return
-		}
-
-		postSubjects[index].subject = event.target.value
-		if (index === postSubjects.length - 1) {
-			setPostSubjects([
-				...postSubjects,
-				{
-					subject: '',
-				},
-			])
-		} else {
-			setPostSubjects([...postSubjects])
-		}
-	}
-
 	const resetForm = useCallback(() => {
 		setTitle('')
 		setDescription('')
 		setContent('')
 		setType('')
 		setKeywords('')
-		setPostCategories([{ category: '' }])
-		setPostSubjects([{ subject: '' }])
+		setCategory('')
+		setSubject('')
 	}, [])
 
 	const submitForm = () => {
-		const postCategoriesFilter = postCategories.filter(
-			(item) => item.category !== ''
-		)
-		const postSubjectsFilter = postSubjects.filter(
-			(item) => item.subject !== ''
-		)
-
-		if (
-			title &&
-			description &&
-			content &&
-			type &&
-			postCategoriesFilter.length > 0 &&
-			postSubjectsFilter.length > 0
-		) {
+		if (title && description && content && type && category && subject) {
 			dispatch(
 				createPost(
 					{
@@ -108,17 +50,15 @@ const CreatePostPage = () => {
 						description,
 						content,
 						type,
-						categories: postCategoriesFilter,
-						subjects: postSubjectsFilter,
+						category,
+						subject,
 						keywords: keywords.split(',').map((item) => item.trim()),
 					},
 					resetForm
 				)
 			)
 		} else {
-			toast.error('Nhập đầy đủ dữ liệu bắt buộc', {
-				style: { fontSize: '1.6rem' },
-			})
+			toast.error('Nhập đầy đủ dữ liệu bắt buộc')
 		}
 	}
 
@@ -162,7 +102,7 @@ const CreatePostPage = () => {
 						value={type}
 						onChange={(e) => setType(e.target.value)}
 					>
-						<option value=''>-- Nhập --</option>
+						<option value=''>-- Nhập loại --</option>
 						{types &&
 							types.length > 0 &&
 							types.map((item) => (
@@ -174,51 +114,43 @@ const CreatePostPage = () => {
 				</div>
 				<div className='create-post__form-group'>
 					<label htmlFor='' className='create-post__title'>
-						Chọn chủ đề <i>*</i>
+						Chọn danh mục <i>*</i>
 					</label>
-					{postSubjects.map((item, index) => (
+					<select
+						className='create-post__select'
+						value={category}
+						onChange={(e) => setCategory(e.target.value)}
+					>
+						<option value=''>-- Chọn danh mục --</option>
+						{categories &&
+							categories.length > 0 &&
+							categories.map((item) => (
+								<option key={item._id} value={item._id}>
+									{item.name}
+								</option>
+							))}
+					</select>
+					<div className='create-post__form-group'>
+						<label htmlFor='' className='create-post__title'>
+							Chọn chủ đề <i>*</i>
+						</label>
 						<select
 							className='create-post__select'
-							key={index}
-							value={item.subject}
-							onChange={(e) => handleChangeSubject(e, index)}
+							value={subject}
+							onChange={(e) => setSubject(e.target.value)}
 						>
-							<option value=''>
-								{index === postSubjects.length - 1
-									? '-- Chọn chủ đề --'
-									: '-- Hủy chủ đề này --'}
-							</option>
+							<option value=''>-- Chọn chủ đề --</option>
 							{subjects &&
 								subjects.length > 0 &&
-								subjects.map((item) => (
-									<option key={`${index}${item._id}`} value={item._id}>
-										{item.name}
-									</option>
-								))}
+								subjects.map((item) =>
+									item.category._id === category ? (
+										<option key={item._id} value={item._id}>
+											{item.name}
+										</option>
+									) : null
+								)}
 						</select>
-					))}
-				</div>
-				<div className='create-post__form-group'>
-					<label htmlFor='' className='create-post__title'>
-						Danh mục (tự động chọn theo chủ đề) <i>*</i>
-					</label>
-					{postCategories.map((item, index) => (
-						<select
-							className='create-post__select'
-							key={index}
-							disabled
-							value={item.category}
-						>
-							<option value=''></option>
-							{categories &&
-								categories.length > 0 &&
-								categories.map((item) => (
-									<option key={`${index}${item._id}`} value={item._id}>
-										{item.name}
-									</option>
-								))}
-						</select>
-					))}
+					</div>
 				</div>
 				<div className='create-post__form-group'>
 					<label htmlFor='' className='create-post__title'>

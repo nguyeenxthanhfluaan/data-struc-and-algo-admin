@@ -1,67 +1,27 @@
 const express = require('express')
 const router = express.Router()
-const Post = require('../models/Post')
-const search = require('../utilities/search')
-const Type = require('../models/Type')
-const Category = require('../models/Category')
-const Subject = require('../models/Subject')
+
 const auth = require('../middlewares/auth')
 
+const mongoose = require('mongoose')
+const Post = require('../models/Post')
+const ObjectId = mongoose.Types.ObjectId
+
+const search = require('../utilities/search')
+
 // @route   GET api/post?category=algorithm&keyword=test
-// @desc    Get posts with conditions in query string, Get all post if no condition
+// @desc    Search posts if no keyword
 // @access  Public
 router.get('/', async (req, res) => {
 	try {
-		const { category, type, keyword, subject, sortBy } = req.query
-		console.log(req.query)
+		const { keyword, subject, type, category, sortBy } = req.query
 
-		let query = {}
+		const result = await search({ keyword, subject, type, category, sortBy })
 
-		if (category) {
-			console.log('co category')
-			query['categories'] = { $elemMatch: { category } }
-		}
-
-		if (subject) {
-			console.log('co subject')
-			query['subjects'] = { $elemMatch: { subject } }
-		}
-
-		if (type) {
-			console.log('co type')
-			query.type = type
-		}
-
-		let result = null
-
-		switch (sortBy) {
-			case 'newest':
-				result = await Post.find(query)
-					.populate({ path: 'type', model: Type })
-					.populate({ path: 'categories.category', model: Category })
-					.populate({ path: 'subjects.subject', model: Subject })
-					.sort({ lastModified: -1 })
-				break
-			case 'oldest':
-				result = await Post.find(query)
-					.populate({ path: 'type', model: Type })
-					.populate({ path: 'categories.category', model: Category })
-					.populate({ path: 'subjects.subject', model: Subject })
-					.sort({ lastModified: 1 })
-				break
-			default:
-				result = await Post.find(query)
-					.populate({ path: 'type', model: Type })
-					.populate({ path: 'categories.category', model: Category })
-					.populate({ path: 'subjects.subject', model: Subject })
-		}
-
-		console.log({ query })
-
-		res.json(search(result, keyword))
+		res.json(result)
 	} catch (error) {
 		console.log(error)
-		res.status(500).send('Server Error')
+		res.sendStatus(500)
 	}
 })
 
@@ -70,10 +30,16 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await Post.findById(req.params.id)
-			.populate({ path: 'type', model: Type })
-			.populate({ path: 'categories.category', model: Category })
-			.populate({ path: 'subjects.subject', model: Subject })
+		const result = await Post.findByIdAndUpdate(
+			req.params.id,
+			{
+				$inc: { viewCount: 1 },
+			},
+			{ new: true }
+		)
+			.populate({ path: 'type' })
+			.populate({ path: 'category' })
+			.populate({ path: 'subject' })
 		res.json(result)
 	} catch (error) {
 		console.log(error)
@@ -85,27 +51,22 @@ router.get('/:id', async (req, res) => {
 // @route   POST /api/post
 // @desc    Create a post
 // @access  Private
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
 	try {
-		const {
-			title,
-			description,
-			content,
-			categories,
-			type,
-			subjects,
-			keywords,
-		} = req.body
+		const { title, description, content, category, type, subject, keywords } =
+			req.body
+
+		console.log(req.body)
+
 		const post = new Post({
 			title,
 			description,
 			content,
 			type,
-			categories,
-			subjects,
+			category,
+			subject,
 			keywords,
 		})
-		console.log(post)
 		const result = await post.save()
 		res.json(result)
 	} catch (error) {
@@ -114,7 +75,7 @@ router.post('/', auth, async (req, res) => {
 	}
 })
 
-// @route   POST /api/post
+// @route   PUT /api/post
 // @desc    Update a post
 // @access  Private
 router.put('/', async (req, res) => {
@@ -124,9 +85,9 @@ router.put('/', async (req, res) => {
 			title,
 			description,
 			content,
-			categories,
+			category,
 			type,
-			subjects,
+			subject,
 			keywords,
 		} = req.body
 
@@ -136,9 +97,9 @@ router.put('/', async (req, res) => {
 				title,
 				description,
 				content,
-				categories,
+				category,
 				type,
-				subjects,
+				subject,
 				keywords,
 				lastModified: Date.now(),
 			},
@@ -147,17 +108,33 @@ router.put('/', async (req, res) => {
 		res.json(result)
 	} catch (error) {
 		console.log(error)
-		res.status(500).send('Server Error')
+		res.sendStatus(500)
 	}
 })
 
+// @route   DELETE /api/post/:id
+// @desc    Delete a post
+// @access  Private
+router.delete('/:id', async (req, res) => {
+	try {
+		const post = await Post.findByIdAndDelete(req.params.id)
+		res.json(post)
+	} catch (error) {
+		console.log(error)
+		res.sendStatus(500)
+	}
+})
+
+// @route   DELETE /api/post/
+// @desc    Delete all posts
+// @access  Private
 router.delete('/', async (req, res) => {
 	try {
 		await Post.deleteMany()
 		res.send('delete all success')
 	} catch (error) {
 		console.log(error)
-		res.status(500).send('Server Error')
+		res.sendStatus(500)
 	}
 })
 

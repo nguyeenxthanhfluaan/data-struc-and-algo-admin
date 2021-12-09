@@ -61,6 +61,7 @@ const CategoryContainer = ({ category, subjects }) => {
 	}, [activatedAddSubject])
 
 	const handleAddSubject = (e) => {
+		e.preventDefault()
 		dispatch(addSubject({ name: newSubject, category: category._id }))
 		setNewSubject('')
 	}
@@ -78,7 +79,7 @@ const CategoryContainer = ({ category, subjects }) => {
 					/>
 				))}
 
-			<div className='manage-subject__form-group'>
+			<form className='manage-subject__form-group'>
 				{activatedAddSubject ? (
 					<>
 						<input
@@ -90,6 +91,7 @@ const CategoryContainer = ({ category, subjects }) => {
 						/>
 						<Button
 							className='manage-subject__btn cancel'
+							type='button'
 							onClick={() => setActivatedAddSubject(false)}
 						>
 							<FontAwesomeIcon
@@ -100,6 +102,7 @@ const CategoryContainer = ({ category, subjects }) => {
 						</Button>
 						<Button
 							className='manage-subject__btn save'
+							type='submit'
 							onClick={handleAddSubject}
 						>
 							<FontAwesomeIcon
@@ -112,6 +115,7 @@ const CategoryContainer = ({ category, subjects }) => {
 				) : (
 					<Button
 						className='manage-subject__btn add'
+						type='button'
 						onClick={() => setActivatedAddSubject(true)}
 					>
 						<FontAwesomeIcon
@@ -121,7 +125,7 @@ const CategoryContainer = ({ category, subjects }) => {
 						Thêm danh mục
 					</Button>
 				)}
-			</div>
+			</form>
 		</div>
 	)
 }
@@ -143,6 +147,7 @@ const FormSubject = ({ subject }) => {
 	}, [activatedEdit])
 
 	const handleEdit = (e) => {
+		e.preventDefault()
 		dispatch(
 			updateSubject({
 				...subject,
@@ -157,7 +162,7 @@ const FormSubject = ({ subject }) => {
 	}
 
 	return (
-		<div className='manage-subject__form-group'>
+		<form className='manage-subject__form-group'>
 			<input
 				type='text'
 				className='manage-subject__input'
@@ -170,6 +175,7 @@ const FormSubject = ({ subject }) => {
 				<>
 					<Button
 						className='manage-subject__btn cancel'
+						type='button'
 						onClick={() => setActivatedEdit(false)}
 					>
 						<FontAwesomeIcon
@@ -180,7 +186,8 @@ const FormSubject = ({ subject }) => {
 					</Button>
 					<Button
 						className='manage-subject__btn save'
-						onClick={() => handleEdit()}
+						type='submit'
+						onClick={handleEdit}
 					>
 						<FontAwesomeIcon
 							icon={faSave}
@@ -192,6 +199,7 @@ const FormSubject = ({ subject }) => {
 			) : (
 				<Button
 					className='manage-subject__btn edit'
+					type='button'
 					onClick={() => setActivatedEdit(true)}
 				>
 					<FontAwesomeIcon
@@ -203,6 +211,7 @@ const FormSubject = ({ subject }) => {
 			)}
 			<Button
 				className='manage-subject__btn delete'
+				type='button'
 				onClick={handleDeleteSubject}
 			>
 				<FontAwesomeIcon
@@ -211,7 +220,7 @@ const FormSubject = ({ subject }) => {
 				/>
 				Xóa
 			</Button>
-		</div>
+		</form>
 	)
 }
 

@@ -20,7 +20,8 @@ const Homepage = () => {
 			<div className='homepage'>
 				<Menu />
 				<div className='homepage__content'>
-					<List title='Bài đăng mới nhất' data={posts} />
+					Quản lý của admin
+					{/* <List title='Bài đăng mới nhất' data={posts} /> */}
 				</div>
 			</div>
 		</Helmet>

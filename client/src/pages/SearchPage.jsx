@@ -15,8 +15,6 @@ import Helmet from '../components/Helmet'
 const SearchPage = () => {
 	const dispatch = useDispatch()
 
-	const { search } = useLocation()
-
 	const { posts, categories, subjects, types } = useSelector(
 		({ post, category, subject, type }) => ({
 			posts: post.posts,
@@ -26,10 +24,11 @@ const SearchPage = () => {
 		})
 	)
 
-	const searchParams = new URLSearchParams(search)
+	const searchParams = new URLSearchParams(useLocation())
 
-	const keyword = searchParams.get('keyword')
+	const [title, setTitle] = useState('')
 
+	const [keyword, setKeyword] = useState('')
 	const [category, setCategory] = useState('')
 	const [subject, setSubject] = useState('')
 	const [type, setType] = useState('')
@@ -42,37 +41,40 @@ const SearchPage = () => {
 
 		dispatch(
 			fetchPosts({
-				keyword,
 				type: searchParams.get('type') || null,
 				category: searchParams.get('category') || null,
 				subject: searchParams.get('subject') || null,
 			})
 		)
-	}, [keyword])
+	}, [])
+
+	useEffect(() => {
+		setTitle(keyword)
+	}, [posts])
 
 	const handleChangeCategory = (e) => {
 		setCategory(e.target.value)
 		setSubject('')
 	}
 
-	const filter = () => {
+	const search = (e) => {
+		e.preventDefault()
+		console.log({ type, keyword, category, subject, sortBy })
 		dispatch(fetchPosts({ type, keyword, category, subject, sortBy }))
 	}
 
 	return (
 		<Helmet title='Tìm kiếm'>
-			<div className='search'>
+			<form className='search'>
+				<input
+					type='text'
+					className='search__input'
+					placeholder='Nhập từ khóa'
+					value={keyword}
+					onChange={(e) => setKeyword(e.target.value)}
+				/>
+				<Marginer margin={'30px'} />
 				<div className='search__header'>
-					<h6 className='search__header__text'>
-						{keyword ? (
-							<>
-								Tìm kiếm cho <q>{keyword}</q>
-							</>
-						) : (
-							'Danh sách'
-						)}
-					</h6>
-
 					<div className='search__filter__group'>
 						<label
 							htmlFor='select-type'
@@ -162,16 +164,28 @@ const SearchPage = () => {
 						>
 							<option value=''> -- Không -- </option>
 							<option value='newest'> -- Mới nhất -- </option>
-							<option value='oldest'> -- Cữ nhất -- </option>
+							<option value='oldest'> -- Cũ nhất -- </option>
+							<option value='relevant'> -- Liên quan nhất -- </option>
+							<option value='mostViewed'> -- Xem nhiều nhất -- </option>
 						</select>
 					</div>
-
-					<Button onClick={filter}>Áp dụng</Button>
 				</div>
 
+				<Marginer margin={'30px'} />
+
+				<Button onClick={search}>Áp dụng</Button>
+
 				<Marginer margin={'50px'} />
+
+				<h6 className='search__header__text'>
+					Tìm kiếm cho <q>{title}</q>
+				</h6>
+
+				<Marginer margin={'50px'} />
+
 				{posts && posts.length > 0 && <List data={posts} />}
-			</div>
+				{posts && posts.length === 0 && <h5>Không tìm thấy nội dung</h5>}
+			</form>
 		</Helmet>
 	)
 }

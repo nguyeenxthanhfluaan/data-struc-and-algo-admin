@@ -5,7 +5,7 @@
 	&__header {
 		display: flex;
 		align-items: center;
-		justify-content: space-evenly;
+		justify-content: space-between;
 		flex-wrap: wrap;
 
 		&__text {
@@ -17,10 +17,17 @@
 		}
 	}
 
+	&__input {
+		font-size: 1.6rem;
+		border: 1px solid #000;
+		outline: none;
+		padding: 4px 4px 4px 8px;
+		width: 400px;
+	}
+
 	&__filter {
 		&__group {
 			display: flex;
-			padding: 20px 0;
 		}
 
 		&__input {

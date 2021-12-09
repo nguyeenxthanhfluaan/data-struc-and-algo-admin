@@ -5,15 +5,24 @@ import {
 	faBook,
 	faListAlt,
 	faPlusCircle,
+	faNewspaper,
 } from '@fortawesome/free-solid-svg-icons'
 
 import CreatePostPage from './CreatePostPage'
 import ManageCategory from './ManageCategory'
 import ManageSubject from './ManageSubject'
 import Helmet from '../../components/Helmet'
+import ManagePost from './ManagePost'
+
+const page = {
+	POSTS: 'POSTS',
+	CREATE_POST: 'CREATE_POST',
+	CATEGORY: 'CATEGORY',
+	SUBJECT: 'SUBJECT',
+}
 
 const AdminPage = () => {
-	const [active, setActive] = useState('create-post')
+	const [activatedPage, setActivatedPage] = useState(page.POSTS)
 
 	return (
 		<Helmet title='Admin'>
@@ -22,9 +31,21 @@ const AdminPage = () => {
 					<ul className='admin__menu__list'>
 						<li
 							className={`admin__menu__list__item ${
-								active === 'create-post' ? 'active' : ''
+								activatedPage === page.POSTS ? 'active' : ''
 							}`}
-							onClick={() => setActive('create-post')}
+							onClick={() => setActivatedPage(page.POSTS)}
+						>
+							<FontAwesomeIcon
+								icon={faNewspaper}
+								className='admin__menu__list__item__icon'
+							/>
+							Quản lý bài đăng
+						</li>
+						<li
+							className={`admin__menu__list__item ${
+								activatedPage === page.CREATE_POST ? 'active' : ''
+							}`}
+							onClick={() => setActivatedPage(page.CREATE_POST)}
 						>
 							<FontAwesomeIcon
 								icon={faPlusCircle}
@@ -34,9 +55,9 @@ const AdminPage = () => {
 						</li>
 						<li
 							className={`admin__menu__list__item ${
-								active === 'category' ? 'active' : ''
+								activatedPage === page.CATEGORY ? 'active' : ''
 							}`}
-							onClick={() => setActive('category')}
+							onClick={() => setActivatedPage(page.CATEGORY)}
 						>
 							<FontAwesomeIcon
 								icon={faListAlt}
@@ -46,9 +67,9 @@ const AdminPage = () => {
 						</li>
 						<li
 							className={`admin__menu__list__item ${
-								active === 'subject' ? 'active' : ''
+								activatedPage === page.SUBJECT ? 'active' : ''
 							}`}
-							onClick={() => setActive('subject')}
+							onClick={() => setActivatedPage(page.SUBJECT)}
 						>
 							<FontAwesomeIcon
 								icon={faBook}
@@ -60,9 +81,10 @@ const AdminPage = () => {
 				</div>
 				<div className='admin__separate'></div>
 				<div className='admin__content'>
-					{active === 'create-post' && <CreatePostPage />}
-					{active === 'category' && <ManageCategory />}
-					{active === 'subject' && <ManageSubject />}
+					{activatedPage === page.POSTS && <ManagePost />}
+					{activatedPage === page.CREATE_POST && <CreatePostPage />}
+					{activatedPage === page.CATEGORY && <ManageCategory />}
+					{activatedPage === page.SUBJECT && <ManageSubject />}
 				</div>
 			</div>
 		</Helmet>

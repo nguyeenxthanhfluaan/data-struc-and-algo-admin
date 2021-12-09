@@ -23,7 +23,7 @@ app.use('/api/post', require('./routes/post'))
 app.use('/api/category', require('./routes/category'))
 app.use('/api/subject', require('./routes/subject'))
 app.use('/api/type', require('./routes/type'))
-app.use('/api/auth', require('./routes/auth'))
+app.use('/api/search-suggestion', require('./routes/search-suggestion'))
 
 // Upload image for CKEdtitor
 app.post('/img/upload', upload.any(), async (req, res) => {
@@ -44,8 +44,6 @@ app.post('/img/upload', upload.any(), async (req, res) => {
 		res.sendStatus(500)
 	}
 })
-
-console.log('ngoai', process.env.NODE_ENV)
 
 // Hosting
 if (process.env.NODE_ENV === 'production') {

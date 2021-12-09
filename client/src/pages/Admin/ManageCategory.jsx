@@ -106,7 +106,7 @@ const FormCategory = ({ category }) => {
 
 	const [activatedModal, setActivatedModal] = useState(false)
 
-	const handleSubmit = (e) => {
+	const handleEdit = (e) => {
 		e.preventDefault()
 		dispatch(
 			updateCategory({
@@ -123,7 +123,7 @@ const FormCategory = ({ category }) => {
 	}
 
 	return (
-		<form className='manage-category__form-group' onSubmit={handleSubmit}>
+		<form className='manage-category__form-group' onSubmit={handleEdit}>
 			<input
 				type='text'
 				className='manage-category__input'
@@ -147,7 +147,7 @@ const FormCategory = ({ category }) => {
 					<Button
 						type='submit'
 						className='manage-category__btn save'
-						onClick={handleSubmit}
+						onClick={handleEdit}
 					>
 						<FontAwesomeIcon
 							icon={faSave}

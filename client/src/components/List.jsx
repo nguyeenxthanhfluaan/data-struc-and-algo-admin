@@ -2,18 +2,18 @@ import React from 'react'
 import Marginer from './Marginer'
 import PostCard from './PostCard'
 
-const List = (props) => {
+const List = ({ title, data }) => {
 	return (
 		<div className='list'>
-			{props.title && (
+			{title && (
 				<>
-					<h3 className='list__title'>{props.title}</h3>
+					<h3 className='list__title'>{title}</h3>
 					<Marginer margin='40px' />
 				</>
 			)}
-			{props.data &&
-				props.data.length > 0 &&
-				props.data.map((item) => <PostCard post={item} key={item._id} />)}
+			{data &&
+				data.length > 0 &&
+				data.map((item) => <PostCard post={item} key={item._id} />)}
 		</div>
 	)
 }

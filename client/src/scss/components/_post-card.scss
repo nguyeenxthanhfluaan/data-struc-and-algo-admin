@@ -9,20 +9,45 @@
 	}
 
 	&__title {
-		font-size: 2rem;
-		color: #2e69ff;
+		display: flex;
+		align-items: center;
 
-		&:hover {
-			color: #0b72c6;
+		&__text {
+			flex: 1;
+			margin-left: 20px;
+			font-size: 2rem;
+			color: #2e69ff;
+
+			&:hover {
+				color: #0b72c6;
+			}
 		}
 	}
 
 	&__desc {
-		margin-left: 10px;
-		font-size: 1.4rem;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+		display: flex;
+		align-items: center;
+
+		&__text {
+			margin-left: 20px;
+			font-size: 1.6rem;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			color: #2e69ff;
+		}
+	}
+
+	&__category,
+	&__subject,
+	&__test {
+		display: flex;
+		align-items: center;
+
+		&__text {
+			color: #2e69ff;
+			margin-left: 20px;
+		}
 	}
 }

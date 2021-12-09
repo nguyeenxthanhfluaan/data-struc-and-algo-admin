@@ -18,16 +18,8 @@
 	}
 
 	&__search {
-		display: flex;
-		width: 400px;
-
-		&__input {
-			border: none;
-			outline: none;
-			font-size: 1.6rem;
-			padding: 10px;
-			padding-left: 20px;
-			flex: 1;
+		&__icon {
+			margin-left: 20px;
 		}
 	}
 

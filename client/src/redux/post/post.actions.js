@@ -46,13 +46,11 @@ export const fetchPostById = (id) => async (dispatch) => {
 
 export const createPost =
 	(
-		{ title, description, content, type, categories, subjects, keywords },
+		{ title, description, content, type, category, subject, keywords },
 		resetForm
 	) =>
 	async (dispatch) => {
-		const toastCreating = toast.info('Đang tạo bài đăng', {
-			style: { fontSize: '1.6rem' },
-		})
+		toast.info('Đang tạo bài đăng')
 
 		try {
 			const result = await axios.post(
@@ -62,8 +60,8 @@ export const createPost =
 					description,
 					content,
 					type,
-					categories,
-					subjects,
+					category,
+					subject,
 					keywords,
 				}),
 				{
@@ -73,16 +71,10 @@ export const createPost =
 				}
 			)
 			resetForm()
-			toast.dismiss(toastCreating)
-			toast.success('Tạo bài đăng thành công', {
-				style: { fontSize: '1.6rem' },
-			})
+			toast.success('Tạo bài đăng thành công')
 			console.log(result.data)
 		} catch (error) {
-			toast.dismiss(toastCreating)
-			toast.error('Tạo bài đăng thất bại', {
-				style: { fontSize: '1.6rem' },
-			})
+			toast.error('Tạo bài đăng thất bại')
 			console.log(error)
 		}
 	}

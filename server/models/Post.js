@@ -4,46 +4,43 @@ const Schema = mongoose.Schema
 const PostSchema = mongoose.Schema({
 	title: {
 		type: Schema.Types.String,
-		require: true
+		require: true,
 	},
 	description: {
 		type: Schema.Types.String,
-		require: true
+		require: true,
 	},
 	content: {
 		type: Schema.Types.String,
-		require: true
+		require: true,
 	},
 	type: {
 		type: Schema.Types.ObjectId,
-		ref: 'types'
+		ref: 'Type',
 	},
-	categories: [
-		{
-			category: {
-				type: Schema.Types.ObjectId,
-				ref: 'category'
-			}
-		}
-	],
-	subjects: [
-		{
-			subject: {
-				type: Schema.Types.ObjectId,
-				ref: 'subject'
-			}
-		}
-	],
+	category: {
+		type: Schema.Types.ObjectId,
+		ref: 'Category',
+	},
+	subject: {
+		type: Schema.Types.ObjectId,
+		ref: 'Subject',
+	},
 	keywords: [
 		{
-			type: Schema.Types.String
-		}
+			type: Schema.Types.String,
+		},
 	],
 	lastModified: {
 		type: Schema.Types.Date,
-		default: Date.now
-	}
+		default: Date.now,
+	},
+	viewCount: {
+		type: Schema.Types.Number,
+		default: 0,
+	},
 })
 
-const Post = mongoose.model('post', PostSchema)
+const Post = mongoose.model('Post', PostSchema)
+
 module.exports = Post

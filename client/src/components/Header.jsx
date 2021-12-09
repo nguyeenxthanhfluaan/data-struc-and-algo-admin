@@ -24,10 +24,6 @@ const Header = () => {
 
 	const [keyword, setKeyword] = useState('')
 
-	const search = useCallback(() => {
-		history.push(`/search?keyword=${keyword}`)
-	}, [keyword])
-
 	return (
 		<header className='header'>
 			<div className='container'>
@@ -38,15 +34,12 @@ const Header = () => {
 						</Link>
 					</div>
 					<div className='header__search'>
-						<input
-							type='text'
-							className='header__search__input'
-							placeholder='Nhập từ khóa'
-							value={keyword}
-							onChange={(e) => setKeyword(e.target.value)}
-						/>
-						<Button onClick={search}>
-							<FontAwesomeIcon icon={faSearch} />
+						<Button onClick={() => history.push('/search')}>
+							<span>Tìm kiếm</span>
+							<FontAwesomeIcon
+								icon={faSearch}
+								className='header__search__icon'
+							/>
 						</Button>
 					</div>
 					<div className='header__control'>
