@@ -72,26 +72,32 @@ const search = async ({ keyword, subject, type, category, sortBy }) => {
 			as: 'category',
 		},
 	})
+	aggregateQuery.push({
+		$lookup: {
+			from: 'types',
+			localField: 'type',
+			foreignField: '_id',
+			as: 'type',
+		},
+	})
+
+	aggregateQuery.push({ $unwind: '$subject' })
+	aggregateQuery.push({ $unwind: '$category' })
+	aggregateQuery.push({ $unwind: '$type' })
 
 	if (category) {
 		Object.assign($match, {
-			category: {
-				$elemMatch: { _id: ObjectId(category) },
-			},
+			'category._id': ObjectId(category),
 		})
 	}
 	if (subject) {
 		Object.assign($match, {
-			subject: {
-				$elemMatch: { _id: ObjectId(subject) },
-			},
+			'subject._id': ObjectId(subject),
 		})
 	}
 	if (type) {
 		Object.assign($match, {
-			type: {
-				$elemMatch: { _id: ObjectId(type) },
-			},
+			'type._id': ObjectId(type),
 		})
 	}
 
@@ -99,16 +105,20 @@ const search = async ({ keyword, subject, type, category, sortBy }) => {
 		aggregateQuery.push({ $match })
 	}
 
-	aggregateQuery.push({ $unwind: '$subject' })
-	aggregateQuery.push({ $unwind: '$category' })
-
 	if (sort.field) {
 		aggregateQuery.push({
 			$sort: { [sort.field]: sort.direction },
 		})
 	}
 
+	aggregateQuery.push({
+		$project: {
+			content: 0,
+		},
+	})
+
 	try {
+		console.log(aggregateQuery)
 		return await Post.aggregate(aggregateQuery)
 	} catch (error) {
 		throw error

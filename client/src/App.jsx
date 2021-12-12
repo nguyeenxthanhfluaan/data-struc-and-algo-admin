@@ -16,7 +16,6 @@ import Homepage from './pages/Homepage'
 import SearchPage from './pages/SearchPage'
 import PostDetailPage from './pages/PostDetailPage'
 import Header from './components/Header'
-import UpdatePostPage from './pages/UpdatePostPage'
 import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
 import AdminPage from './pages/Admin/AdminPage'
@@ -44,11 +43,11 @@ function App() {
 						component={PostDetailPage}
 					/>
 					<Route path='/login' exact component={Login} />
-					<PrivateRoute
+					{/* <PrivateRoute
 						path='/post/update'
 						exact
 						component={UpdatePostPage}
-					/>
+					/> */}
 				</Switch>
 			</div>
 			<ToastContainer />

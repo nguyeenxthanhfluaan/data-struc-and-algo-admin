@@ -30,6 +30,12 @@ const PostCard = ({ post }) => {
 					id: {post.subject._id} - name: {post.subject.name}
 				</p>
 			</div>
+			<div className='post-card__subject'>
+				<span>Type: </span>
+				<p className='post-card__subject__text'>
+					id: {post.type._id} - name: {post.type.name}
+				</p>
+			</div>
 			<div className='post-card__test'>
 				<span>View: </span>
 				<p className='post-card__test__text'>{post.viewCount}</p>

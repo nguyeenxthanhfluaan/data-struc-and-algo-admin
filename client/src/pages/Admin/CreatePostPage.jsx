@@ -1,14 +1,55 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
+// import { CKEditor } from '@ckeditor/ckeditor5-react'
+// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
 import { toast } from 'react-toastify'
 
 import { createPost } from '../../redux/post/post.actions'
 
 import Button from '../../components/Button'
 import Helmet from '../../components/Helmet'
+
+import Editor from 'ckeditor5-custom-build/build/ckeditor'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+
+const editorConfiguration = {
+	toolbar: {
+		items: [
+			'heading',
+			'|',
+			'bold',
+			'italic',
+			'underline',
+			'strikethrough',
+			'|',
+			'fontSize',
+			'fontFamily',
+			'fontColor',
+			'fontBackgroundColor',
+			'|',
+			'alignment:left',
+			'alignment:center',
+			'alignment:right',
+			'alignment:justify',
+			'|',
+			'link',
+			'bulletedList',
+			'numberedList',
+			'|',
+			'indent',
+			'outdent',
+			'|',
+			'uploadImage',
+			'blockQuote',
+			'undo',
+			'redo',
+			'codeBlock',
+		],
+		shouldNotGroupWhenFull: true,
+	},
+	ckfinder: { uploadUrl: '/img/upload' },
+}
 
 const CreatePostPage = () => {
 	const dispatch = useDispatch()
@@ -157,6 +198,29 @@ const CreatePostPage = () => {
 						Nhập nội dung <i>*</i>
 					</label>
 					<CKEditor
+						editor={Editor}
+						config={editorConfiguration}
+						data={content}
+						onReady={(editor) => {
+							editor?.ui
+								.getEditableElement()
+								.parentElement.insertBefore(
+									editor?.ui.view.toolbar.element,
+									editor?.ui.getEditableElement()
+								)
+						}}
+						onChange={(event, editor) => {
+							const data = editor.getData()
+							setContent(data)
+						}}
+						onBlur={(event, editor) => {
+							console.log('Blur.', editor)
+						}}
+						onFocus={(event, editor) => {
+							console.log('Focus.', editor)
+						}}
+					/>
+					{/* <CKEditor
 						editor={DecoupledEditor}
 						onReady={(editor) => {
 							editor?.ui
@@ -174,7 +238,7 @@ const CreatePostPage = () => {
 						config={{
 							ckfinder: { uploadUrl: '/img/upload' },
 						}}
-					/>
+					/> */}
 				</div>
 				<div className='create-post__form-group'>
 					<label htmlFor='' className='create-post__title'>

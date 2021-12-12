@@ -12,6 +12,8 @@ import List from '../components/List'
 import Button from '../components/Button'
 import Helmet from '../components/Helmet'
 
+import Highlight from 'react-highlight'
+
 const PostDetailPage = () => {
 	const dispatch = useDispatch()
 	const history = useHistory()
@@ -46,10 +48,13 @@ const PostDetailPage = () => {
 							)}
 						</div>
 						<Marginer margin='50px' separate />
-						<div
+						<Highlight className='post-detail__content' innerHTML={true}>
+							{post.content}
+						</Highlight>
+						{/* <div
 							className='post-detail__content'
 							dangerouslySetInnerHTML={{ __html: post.content }}
-						></div>
+						></div> */}
 					</div>
 				)}
 				<Marginer margin='50px' separate />
