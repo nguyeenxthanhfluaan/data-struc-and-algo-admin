@@ -9,18 +9,6 @@ const Subject = require('../models/Subject')
 // @desc    Get list of ids which
 // @access  Public
 router.get('/', async (req, res) => {
-	// try {
-	// 	const result = await Post.find(
-	// 		{
-	// 			content: { $regex: `${req.query.keyword}`, $options: 'i' },
-	// 		},
-	// 		{ _id: 1, content: 1 }
-	// 	)
-	// 	res.json(result)
-	// } catch (error) {
-	// 	console.log(error)
-	// 	res.status(500).send('Server Error')
-	// }
 	try {
 		const result = await Post.aggregate([
 			{
@@ -29,8 +17,7 @@ router.get('/', async (req, res) => {
 					autocomplete: {
 						query: req.query.keyword,
 						path: 'title',
-						tokenOrder: 'any',
-						fuzzy: {},
+						tokenOrder: 'sequential',
 					},
 				},
 			},
@@ -40,6 +27,9 @@ router.get('/', async (req, res) => {
 					content: 1,
 					score: { $meta: 'searchScore' },
 				},
+			},
+			{
+				$sort: { score: 1 },
 			},
 		])
 		res.json(result)

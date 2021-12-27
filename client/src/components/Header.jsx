@@ -47,7 +47,7 @@ const Header = () => {
 							<>
 								<Button
 									className='header__control__btn'
-									onClick={() => history.push('/admin')}
+									onClick={() => history.push('/')}
 								>
 									<FontAwesomeIcon
 										className='header__control__btn__icon'

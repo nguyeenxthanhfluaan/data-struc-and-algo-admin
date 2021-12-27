@@ -1,52 +1,34 @@
 .menu {
 	width: 300px;
-	background-color: $white-color;
-	font-size: 1.6rem;
-	overflow: hidden;
-	word-wrap: break-word;
+	flex-shrink: 0;
+	padding: 20px 0;
 
 	&__list {
-		padding-left: 15px;
-		display: block;
-		max-height: 0;
-		overflow: hidden;
-		transition: max-height 0.1s ease-in, margin 0.1s ease-in;
-
-		&__item.active > & {
-			max-height: 1000px;
-			margin: 10px;
-		}
-
-		&__item.active > &__item__heading {
-			text-decoration: underline;
-			color: rgba($color: $main-color, $alpha: 0.6);
-
-			svg {
-				color: inherit;
-			}
-		}
-
 		&__item {
-			&__heading {
-				display: inline;
-				font-size: 1.8rem;
-				font-weight: 400;
-				word-wrap: break-word;
-				cursor: pointer;
-				transition: text-decoration 0.1s ease-in, color 0.1s ease-in;
+			background-color: #4eb5f1;
+			color: $white-color;
+			padding: 5px 0 5px 10px;
+			display: block;
+			width: 100%;
+			height: 100%;
+			cursor: pointer;
+			transition: all 0.3s ease;
 
-				svg {
-					font-size: 1.6rem;
-					margin-left: 8px;
-					color: rgba($color: #000000, $alpha: 0.8);
-					transition: text-decoration 0.1s ease-in, color 0.1s ease-in;
-				}
+			& ~ & {
+				margin-top: 6px;
 			}
 
-			&__name {
-				font-size: 1.6rem;
-				font-weight: 400;
-				word-wrap: break-word;
+			&__icon {
+				margin-right: 6px;
+			}
+
+			&.active,
+			&:hover {
+				background-color: #4095c6;
+			}
+
+			&.active {
+				text-decoration: underline;
 			}
 		}
 	}

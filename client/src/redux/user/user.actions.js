@@ -23,7 +23,7 @@ export const loginUser =
 		try {
 			const result = await axios.post(
 				'/api/auth',
-				{ email, password },
+				JSON.stringify({ email, password }),
 				{
 					headers: {
 						'Content-Type': 'application/json',

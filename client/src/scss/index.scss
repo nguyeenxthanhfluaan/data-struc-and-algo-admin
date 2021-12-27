@@ -11,11 +11,13 @@
 @import './components/search';
 @import './components/post-detail';
 @import './components/list';
-@import './components/create-post';
+@import './components/modify-post';
 @import './components/login';
-@import './components/homepage';
 @import './components/admin';
 @import './components/manage-category';
 @import './components/manage-subject';
 @import './components/modal';
+@import './components/managa-post';
+
+// For hightlighting code
 @import './atom-one-dark.css';

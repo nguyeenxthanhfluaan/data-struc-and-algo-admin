@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import './scss/index.scss'
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,13 +12,19 @@ import { fetchSubject } from './redux/subject/subject.actions'
 import { fetchTypes } from './redux/type/type.actions'
 import { loadUser } from './redux/user/user.actions'
 
-import Homepage from './pages/Homepage'
+import Header from './components/Header'
+import PrivateRoute from './components/PrivateRoute'
+import Menu from './components/Menu'
+
 import SearchPage from './pages/SearchPage'
 import PostDetailPage from './pages/PostDetailPage'
-import Header from './components/Header'
 import Login from './pages/Login'
-import PrivateRoute from './components/PrivateRoute'
-import AdminPage from './pages/Admin/AdminPage'
+import HomePage from './pages/HomePage'
+import ModifyPostPage from './pages/ModifyPostPage'
+import ManagePost from './pages/ManagePosts'
+import ManageCategory from './pages/ManageCategory'
+import ManageSubject from './pages/ManageSubject'
+import DefaultLayout from './DefaultLayout'
 
 function App() {
 	const dispatch = useDispatch()
@@ -35,19 +41,85 @@ function App() {
 			<Header />
 			<div className='container'>
 				<Switch>
-					<Route path='/' exact component={AdminPage} />
-					<Route path='/search' exact component={SearchPage} />
+					<Route path='/login' exact component={Login} />
+
 					<Route
+						path='/'
+						exact
+						render={() => <Redirect to={'/manage/post'} />}
+					/>
+
+					<PrivateRoute
+						path='/create-post'
+						exact
+						render={() => (
+							<DefaultLayout>
+								<ModifyPostPage />
+							</DefaultLayout>
+						)}
+					/>
+
+					<PrivateRoute
+						path='/update-post/:id'
+						exact
+						render={() => (
+							<DefaultLayout>
+								<ModifyPostPage isUpdatePost />
+							</DefaultLayout>
+						)}
+					/>
+
+					<PrivateRoute
+						path='/manage/post'
+						exact
+						render={() => (
+							<DefaultLayout>
+								<ManagePost />
+							</DefaultLayout>
+						)}
+					/>
+
+					<PrivateRoute
+						path='/manage/category'
+						exact
+						render={() => (
+							<DefaultLayout>
+								<ManageCategory />
+							</DefaultLayout>
+						)}
+					/>
+
+					<PrivateRoute
+						path='/manage/subject'
+						exact
+						render={() => (
+							<DefaultLayout>
+								<ManageSubject />
+							</DefaultLayout>
+						)}
+					/>
+
+					<PrivateRoute
 						path='/post/detail/:id'
 						exact
 						component={PostDetailPage}
+						render={() => (
+							<DefaultLayout>
+								<PostDetailPage />
+							</DefaultLayout>
+						)}
 					/>
-					<Route path='/login' exact component={Login} />
-					{/* <PrivateRoute
-						path='/post/update'
+
+					<Route
+						path='/search'
 						exact
-						component={UpdatePostPage}
-					/> */}
+						component={SearchPage}
+						render={() => (
+							<DefaultLayout>
+								<SearchPage />
+							</DefaultLayout>
+						)}
+					/>
 				</Switch>
 			</div>
 			<ToastContainer />

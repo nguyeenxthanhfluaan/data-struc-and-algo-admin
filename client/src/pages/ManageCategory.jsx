@@ -14,10 +14,10 @@ import {
 	addCategory,
 	deleteCategory,
 	updateCategory,
-} from '../../redux/category/category.actions'
+} from '../redux/category/category.actions'
 
-import Button from '../../components/Button'
-import Modal from '../../components/Modal'
+import Button from '../components/Button'
+import Modal from '../components/Modal'
 
 const ManageCategory = () => {
 	const dispatch = useDispatch()

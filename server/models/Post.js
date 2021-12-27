@@ -10,6 +10,14 @@ const PostSchema = mongoose.Schema({
 		type: Schema.Types.String,
 		require: true,
 	},
+	thumbnail: {
+		url: {
+			type: Schema.Types.String,
+		},
+		publicId: {
+			type: Schema.Types.String,
+		},
+	},
 	content: {
 		type: Schema.Types.String,
 		require: true,
@@ -17,10 +25,6 @@ const PostSchema = mongoose.Schema({
 	type: {
 		type: Schema.Types.ObjectId,
 		ref: 'Type',
-	},
-	category: {
-		type: Schema.Types.ObjectId,
-		ref: 'Category',
 	},
 	subject: {
 		type: Schema.Types.ObjectId,

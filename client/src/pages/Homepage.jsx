@@ -1,31 +1,20 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchPost, fetchPosts } from '../redux/post/post.actions'
 
-import Menu from '../components/Menu'
-import List from '../components/List'
 import Helmet from '../components/Helmet'
+import List from '../components/List'
+import { fetchPosts } from '../redux/post/post.actions'
 
-const Homepage = () => {
+const HomePage = () => {
 	const dispatch = useDispatch()
 
 	const { posts } = useSelector(({ post }) => ({ posts: post.posts }))
 
 	useEffect(() => {
-		dispatch(fetchPosts({ sortBy: 'newest' }))
+		dispatch(fetchPosts({}))
 	}, [])
 
-	return (
-		<Helmet title='Trang chủ'>
-			<div className='homepage'>
-				<Menu />
-				<div className='homepage__content'>
-					Quản lý của admin
-					{/* <List title='Bài đăng mới nhất' data={posts} /> */}
-				</div>
-			</div>
-		</Helmet>
-	)
+	return <Helmet title='Admin'></Helmet>
 }
 
-export default Homepage
+export default HomePage

@@ -1,8 +1,8 @@
 import postTypes from './post.type'
 
 const initialState = {
-	posts: null, // normal value = []
-	post: null, // normal value = {}
+	posts: [],
+	post: {},
 	isLoading: true,
 }
 
@@ -19,6 +19,11 @@ const reducer = (state = initialState, action) => {
 				...state,
 				post: action.payload,
 				isLoading: false,
+			}
+		case postTypes.DELETE_POST:
+			return {
+				...state,
+				posts: state.posts.filter((item) => item._id !== action.payload),
 			}
 		default:
 			return state

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Post = require('../models/Post')
+const SearchKeyword = require('../models/SearchKeyword')
 const ObjectId = mongoose.Types.ObjectId
 
 const handleSortString = (sortBy) => {
@@ -31,12 +32,20 @@ const handleSortString = (sortBy) => {
 	return result
 }
 
-const search = async ({ keyword, subject, type, category, sortBy }) => {
+const search = async ({
+	keyword,
+	subject,
+	type,
+	category,
+	sort,
+	skip,
+	limit,
+}) => {
 	let aggregateQuery = []
 
 	let $match = {}
 
-	const sort = handleSortString(sortBy)
+	const sortObj = handleSortString(sort)
 
 	if (keyword) {
 		aggregateQuery.push({
@@ -47,13 +56,25 @@ const search = async ({ keyword, subject, type, category, sortBy }) => {
 					path: {
 						wildcard: '*',
 					},
-					fuzzy: {},
+					// fuzzy: {},
+					score: {
+						boost: {
+							value: 3,
+						},
+					},
 				},
 			},
 		})
+
 		aggregateQuery.push({
 			$addFields: { score: { $meta: 'searchScore' } },
 		})
+
+		await SearchKeyword.findOneAndUpdate(
+			{ keyword },
+			{ $inc: { searchCount: 1 } },
+			{ upsert: true }
+		)
 	}
 
 	aggregateQuery.push({
@@ -105,9 +126,9 @@ const search = async ({ keyword, subject, type, category, sortBy }) => {
 		aggregateQuery.push({ $match })
 	}
 
-	if (sort.field) {
+	if (sortObj.field) {
 		aggregateQuery.push({
-			$sort: { [sort.field]: sort.direction },
+			$sort: { [sortObj.field]: sortObj.direction },
 		})
 	}
 
@@ -117,8 +138,19 @@ const search = async ({ keyword, subject, type, category, sortBy }) => {
 		},
 	})
 
+	if (skip) {
+		aggregateQuery.push({
+			$skip: skip,
+		})
+	}
+
+	if (limit) {
+		aggregateQuery.push({
+			$limit: limit,
+		})
+	}
+
 	try {
-		console.log(aggregateQuery)
 		return await Post.aggregate(aggregateQuery)
 	} catch (error) {
 		throw error

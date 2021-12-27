@@ -37,3 +37,15 @@ ul {
 	padding: 0 40px;
 	margin: 0 auto;
 }
+
+.flex-content {
+	display: flex;
+	min-height: 100vh;
+}
+
+.main-sidebar {
+	border-left: 1px solid #333;
+	margin-left: 20px;
+	padding: 20px;
+	flex-grow: 1;
+}

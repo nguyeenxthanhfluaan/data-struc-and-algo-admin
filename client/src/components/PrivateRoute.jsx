@@ -8,10 +8,10 @@ const PrivateRoute = ({ children, ...props }) => {
 		isLoading: user.isLoading,
 	}))
 
-	return user || isLoading ? (
+	return isLoading ? null : user ? (
 		<Route {...props}>{children}</Route>
 	) : (
-		<Redirect to='/' />
+		<Redirect to='/login' />
 	)
 }
 

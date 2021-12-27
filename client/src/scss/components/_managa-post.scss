@@ -1,0 +1,35 @@
+.manage-post {
+	&__item {
+		display: flex;
+
+		& ~ & {
+			margin-top: 30px;
+		}
+
+		&__card {
+			flex-grow: 1;
+		}
+
+		&__btn__list {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+			margin-left: 20px;
+			flex-shrink: 0;
+		}
+
+		&__btn__item {
+			&__icon {
+				margin-right: 6px;
+			}
+
+			&.edit {
+				background-color: #4169e1;
+			}
+
+			&.delete {
+				background-color: #dc143c;
+			}
+		}
+	}
+}

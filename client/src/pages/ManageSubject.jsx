@@ -11,12 +11,12 @@ import {
 	faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons'
 
-import Button from '../../components/Button'
+import Button from '../components/Button'
 import {
 	addSubject,
 	deleteSubject,
 	updateSubject,
-} from '../../redux/subject/subject.actions'
+} from '../redux/subject/subject.actions'
 
 const ManageSubject = () => {
 	const { categories, subjects } = useSelector(({ category, subject }) => ({
@@ -25,10 +25,10 @@ const ManageSubject = () => {
 	}))
 
 	return (
-		<div className='manage-subject'>
-			{categories &&
-				categories.length > 0 &&
-				categories.map((cateogoryItem) => {
+		categories?.length > 0 &&
+		subjects?.length > 0 && (
+			<div className='manage-subject'>
+				{categories.map((cateogoryItem) => {
 					return (
 						<CategoryContainer
 							key={cateogoryItem._id}
@@ -40,7 +40,8 @@ const ManageSubject = () => {
 						/>
 					)
 				})}
-		</div>
+			</div>
+		)
 	)
 }
 
@@ -122,7 +123,7 @@ const CategoryContainer = ({ category, subjects }) => {
 							icon={faPlusCircle}
 							className='manage-subject__btn__icon'
 						/>
-						Thêm danh mục
+						Thêm chủ đề
 					</Button>
 				)}
 			</form>

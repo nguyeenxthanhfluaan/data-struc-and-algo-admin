@@ -1,10 +1,14 @@
 const express = require('express')
-const connectDb = require('./config/db')
+require('dotenv').config()
 const multer = require('multer')
 const cookieParser = require('cookie-parser')
+
+const connectDb = require('./config/db')
 const { cloudinary } = require('./config/cloudinary')
+
 const path = require('path')
 
+// Initialize app
 const app = express()
 
 const upload = multer()
@@ -23,6 +27,8 @@ app.use('/api/post', require('./routes/post'))
 app.use('/api/category', require('./routes/category'))
 app.use('/api/subject', require('./routes/subject'))
 app.use('/api/type', require('./routes/type'))
+app.use('/api/auth', require('./routes/auth'))
+app.use('/api/search-keyword', require('./routes/search-keyword'))
 app.use('/api/search-suggestion', require('./routes/search-suggestion'))
 
 // Upload image for CKEdtitor
@@ -47,10 +53,10 @@ app.post('/img/upload', upload.any(), async (req, res) => {
 
 // Hosting
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('../client/build'))
+	app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 	app.get('*', (req, res) => {
 		console.log(__dirname)
-		// res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+		res.header(('Cache-Control', 'no-cache'))
 		res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
 	})
 }
