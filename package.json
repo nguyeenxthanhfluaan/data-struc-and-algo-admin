@@ -4,15 +4,11 @@
 	"description": "Clone the repository:",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"init": "concurrently \"npm i\" \"cd client && npm i\" \"cd server && npm i\" ",
+		"init": "npm i && cd client && npm i && cd .. && cd server && npm i",
 		"server": "cd server && node server.js",
 		"dev": "concurrently \"cd client && npm start\" \"cd server && nodemon server.js\"",
 		"start": "cd server && node server.js",
 		"heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm install --prefix server"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/buivantann/data-structure-search.git"
 	},
 	"author": "",
 	"license": "ISC",

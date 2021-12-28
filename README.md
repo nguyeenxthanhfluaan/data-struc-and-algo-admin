@@ -5,30 +5,19 @@
 # 1. Clone the repository:
 
 ```
-$ git clone https://github.com/buivantann/data-structure-search.git
+$ git clone https://github.com/vtri1411/admin-algo-and-app.git
 ```
 
-# 2. Install npm package
+# 2. install package
 
 ```
-$ npm i
-$ cd server
-$ npm i
-$ cd ../client
-$ npm i
+$ npm run init
 ```
 
-# 3. 
+# 3. Add file .env to server folder, and supply CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, MONGO_URI to .env file
 
-run
+# 4. run
 
 ```
-$ cd ../
 $ npm run dev
-```
-
-deployment
-
-```
-https://sleepy-oasis-67461.herokuapp.com/
 ```
