@@ -8,7 +8,7 @@
 $ git clone https://github.com/vtri1411/admin-algo-and-app.git
 ```
 
-### 2. install package
+### 2. Install package
 
 ```
 $ npm run init
