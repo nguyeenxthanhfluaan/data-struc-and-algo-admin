@@ -2,13 +2,13 @@
 
 ## :computer: How to run
 
-Clone the repository:
+# 1. Clone the repository:
 
 ```
 $ git clone https://github.com/buivantann/data-structure-search.git
 ```
 
-install package
+# 2. Install npm package
 
 ```
 $ npm i
@@ -17,6 +17,8 @@ $ npm i
 $ cd ../client
 $ npm i
 ```
+
+# 3. 
 
 run
 

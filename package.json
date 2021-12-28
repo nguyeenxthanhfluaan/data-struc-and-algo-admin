@@ -4,6 +4,7 @@
 	"description": "Clone the repository:",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"init": "concurrently \"npm i\" \"cd client && npm i\" \"cd server && npm i\" ",
 		"server": "cd server && node server.js",
 		"dev": "concurrently \"cd client && npm start\" \"cd server && nodemon server.js\"",
 		"start": "cd server && node server.js",
@@ -21,7 +22,9 @@
 	"homepage": "https://github.com/buivantann/data-structure-search#readme",
 	"dependencies": {
 		"@ckeditor/ckeditor5-react": "^3.0.3",
-		"concurrently": "^6.4.0",
+		"concurrently": "^6.4.0"
+	},
+	"devDependencies": {
 		"nodemon": "^2.0.15"
 	}
 }
