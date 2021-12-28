@@ -33,6 +33,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 	const [subject, setSubject] = useState('')
 	const [keywords, setKeywords] = useState('')
 	const [thumbnail, setThumbnail] = useState('')
+	const [definition, setDefinition] = useState('')
 
 	const { categories, subjects, types, post } = useSelector(
 		({ category, subject, type, post }) => ({
@@ -48,6 +49,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 			if (Object.keys(post).length > 0) {
 				setTitle(post.title)
 				setDescription(post.description)
+				setDefinition(post.definition)
 				setThumbnail(post.thumbnail.url)
 				setContent(post.content)
 				setType(post.type._id)
@@ -59,13 +61,13 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 		} else {
 			setTitle('')
 			setDescription('')
+			setDefinition('')
 			setContent('')
 			setType('')
 			setThumbnail('')
 			setKeywords('')
 			setCategory('')
 			setSubject('')
-			console.log('go reset')
 		}
 		console.log({ isUpdatePost })
 	}
@@ -91,6 +93,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 		if (
 			title &&
 			description &&
+			definition &&
 			thumbnail &&
 			content &&
 			type &&
@@ -106,6 +109,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 							thumbnail,
 							content,
 							type,
+							definition,
 							category,
 							subject,
 							keywords: keywords.split(',').map((item) => item.trim()),
@@ -120,6 +124,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 							_id: post._id,
 							title,
 							description,
+							definition,
 							thumbnail,
 							content,
 							type,
@@ -145,6 +150,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 		if (Object.keys(post).length > 0) {
 			setTitle(post.title)
 			setDescription(post.description)
+			setDefinition(definition)
 			setThumbnail(post.thumbnail.url)
 			setContent(post.content)
 			setType(post.type._id)
@@ -185,18 +191,13 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 						Nhập mô tả <i>*</i>
 					</label>
 					<textarea
-						rows='10'
+						rows='6'
 						spellCheck='false'
 						className='modify-post__text-area'
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 						placeholder='Nhập mô tả'
 					/>
-					{/* <input
-						type='text'
-						spellCheck={false}
-						className='modify-post__input'
-					/> */}
 				</div>
 				<div className='modify-post__form-group'>
 					<label htmlFor='' className='modify-post__title'>
@@ -278,6 +279,19 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 				</div>
 				<div className='modify-post__form-group'>
 					<label htmlFor='' className='modify-post__title'>
+						Nhập định nghĩa<i>*</i>
+					</label>
+					<textarea
+						rows='6'
+						spellCheck='false'
+						className='modify-post__text-area'
+						value={definition}
+						onChange={(e) => setDefinition(e.target.value)}
+						placeholder='Nhập định nghĩa cho chatbot'
+					/>
+				</div>
+				<div className='modify-post__form-group'>
+					<label htmlFor='' className='modify-post__title'>
 						Nhập nội dung <i>*</i>
 					</label>
 					<CKEditor
@@ -304,6 +318,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 						}}
 					/>
 				</div>
+
 				<div className='modify-post__form-group'>
 					<label htmlFor='' className='modify-post__title'>
 						Nhập từ khóa (mỗi từ khóa cách nhau bởi dấu ',')

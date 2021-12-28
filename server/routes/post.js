@@ -109,6 +109,7 @@ router.post('/', async (req, res) => {
 		const {
 			title,
 			description,
+			definition,
 			thumbnail,
 			content,
 			category,
@@ -131,6 +132,7 @@ router.post('/', async (req, res) => {
 				url: secure_url,
 				publicId: public_id,
 			},
+			definition,
 			content,
 			type,
 			category,
@@ -154,6 +156,7 @@ router.put('/', async (req, res) => {
 			_id,
 			title,
 			description,
+			definition,
 			thumbnail,
 			content,
 			category,
@@ -166,6 +169,7 @@ router.put('/', async (req, res) => {
 		const updateData = {
 			title,
 			description,
+			definition,
 			content,
 			category,
 			type,

@@ -18,6 +18,9 @@ const PostSchema = mongoose.Schema({
 			type: Schema.Types.String,
 		},
 	},
+	definition: {
+		type: Schema.Types.String,
+	},
 	content: {
 		type: Schema.Types.String,
 		require: true,
