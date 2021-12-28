@@ -168,7 +168,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 						htmlFor='modify-post__name'
 						className='modify-post__title'
 					>
-						Nhập tên bài đăng <i>*</i>
+						Nhập tên bài viết <i>*</i>
 					</label>
 					<input
 						type='text'
@@ -177,21 +177,26 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 						className='modify-post__input'
 						value={title}
 						onChange={(e) => setTitle(e.target.value)}
-						placeholder='Nhập tên bài đăng'
+						placeholder='Nhập tên bài viết'
 					/>
 				</div>
 				<div className='modify-post__form-group'>
 					<label htmlFor='' className='modify-post__title'>
 						Nhập mô tả <i>*</i>
 					</label>
-					<input
+					<textarea
+						rows='10'
+						spellCheck='false'
+						className='modify-post__text-area'
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+						placeholder='Nhập mô tả'
+					/>
+					{/* <input
 						type='text'
 						spellCheck={false}
 						className='modify-post__input'
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						placeholder='Nhập tên bài đăng'
-					/>
+					/> */}
 				</div>
 				<div className='modify-post__form-group'>
 					<label htmlFor='' className='modify-post__title'>
@@ -202,7 +207,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 						type='file'
 						className='modify-post__input'
 						onChange={onChangeThumbnail}
-						placeholder='Nhập tên bài đăng'
+						placeholder='Nhập tên bài viết'
 					/>
 					{thumbnail && (
 						<img

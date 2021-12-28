@@ -2,6 +2,7 @@
 	padding: 20px;
 	font-size: 1.6rem;
 	overflow: hidden;
+	font-family: 'Lora', 'Roboto';
 
 	&__form-group {
 		display: flex;
@@ -40,11 +41,13 @@
 	}
 
 	&__input,
-	&__select {
+	&__select,
+	&__text-area {
 		outline: none;
 		border: 1px solid rgba($color: #000000, $alpha: 0.4);
 		padding: 8px 0 8px 20px;
 		font-size: 1.5rem;
+		font-family: inherit;
 	}
 
 	&__select ~ &__select {

@@ -150,7 +150,7 @@ export const updatePost =
 
 export const deletePost = (id) => async (dispatch) => {
 	try {
-		console.log({ id })
+		toast.info('Đang xóa bài viết')
 		await axios.delete(`/api/post/${id}`)
 		dispatch({
 			type: postTypes.DELETE_POST,

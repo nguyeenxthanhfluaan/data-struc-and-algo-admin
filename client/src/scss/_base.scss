@@ -23,8 +23,9 @@ img {
 	max-width: 100%;
 }
 
-ul {
-	list-style-type: none;
+ul,
+ol {
+	list-style-position: inside;
 }
 
 .grid {

@@ -11,12 +11,12 @@ import {
 
 const menuTemplate = [
 	{
-		display: 'Quản lý bài đăng',
+		display: 'Quản lý bài viết',
 		path: '/manage/post',
 		icon: faNewspaper,
 	},
 	{
-		display: 'Tạo bài bài đăng',
+		display: 'Tạo bài bài viết',
 		path: '/create-post',
 		icon: faPlusCircle,
 	},
