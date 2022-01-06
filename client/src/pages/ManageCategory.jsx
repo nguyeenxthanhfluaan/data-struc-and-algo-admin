@@ -18,6 +18,9 @@ import {
 
 import Button from '../components/Button'
 import Modal from '../components/Modal'
+import Helmet from '../components/Helmet'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const ManageCategory = () => {
 	const dispatch = useDispatch()
@@ -38,7 +41,7 @@ const ManageCategory = () => {
 	}
 
 	return (
-		<>
+		<Helmet title={'Quản lý danh mục'}>
 			{categories &&
 				categories.length > 0 &&
 				categories.map((item) => (
@@ -94,17 +97,28 @@ const ManageCategory = () => {
 					</Button>
 				)}
 			</form>
-		</>
+		</Helmet>
 	)
 }
 
 const FormCategory = ({ category }) => {
 	const dispatch = useDispatch()
 
+	const [postCount, setPostCount] = useState(0)
+
 	const [activatedEdit, setActivatedEdit] = useState(false)
 	const [categoryName, setCategoryName] = useState(category.name)
 
 	const [activatedModal, setActivatedModal] = useState(false)
+
+	useEffect(async () => {
+		const { data } = await axios.get('/api/post/count', {
+			params: {
+				category: category._id,
+			},
+		})
+		setPostCount(data)
+	}, [])
 
 	const handleEdit = (e) => {
 		e.preventDefault()
@@ -124,62 +138,69 @@ const FormCategory = ({ category }) => {
 
 	return (
 		<form className='manage-category__form-group' onSubmit={handleEdit}>
-			<input
-				type='text'
-				className='manage-category__input'
-				value={categoryName}
-				disabled={activatedEdit ? false : true}
-				onChange={(e) => setCategoryName(e.target.value)}
-			/>
-			{activatedEdit ? (
-				<>
+			<div className='manage-category__form-group__wrapper'>
+				<input
+					type='text'
+					className='manage-category__input'
+					value={categoryName}
+					disabled={activatedEdit ? false : true}
+					onChange={(e) => setCategoryName(e.target.value)}
+				/>
+				{activatedEdit ? (
+					<>
+						<Button
+							type='button'
+							className='manage-category__btn cancel'
+							onClick={() => setActivatedEdit(false)}
+						>
+							<FontAwesomeIcon
+								icon={faTimesCircle}
+								className='manage-category__btn__icon'
+							/>
+							Hủy bỏ
+						</Button>
+						<Button
+							type='submit'
+							className='manage-category__btn save'
+							onClick={handleEdit}
+						>
+							<FontAwesomeIcon
+								icon={faSave}
+								className='manage-category__btn__icon'
+							/>
+							Lưu
+						</Button>
+					</>
+				) : (
 					<Button
 						type='button'
-						className='manage-category__btn cancel'
-						onClick={() => setActivatedEdit(false)}
+						className='manage-category__btn edit'
+						onClick={() => setActivatedEdit(true)}
 					>
 						<FontAwesomeIcon
-							icon={faTimesCircle}
+							icon={faEdit}
 							className='manage-category__btn__icon'
 						/>
-						Hủy bỏ
+						Chỉnh sửa
 					</Button>
-					<Button
-						type='submit'
-						className='manage-category__btn save'
-						onClick={handleEdit}
-					>
-						<FontAwesomeIcon
-							icon={faSave}
-							className='manage-category__btn__icon'
-						/>
-						Lưu
-					</Button>
-				</>
-			) : (
+				)}
 				<Button
 					type='button'
-					className='manage-category__btn edit'
-					onClick={() => setActivatedEdit(true)}
+					className='manage-category__btn delete'
+					onClick={() => setActivatedModal(true)}
 				>
 					<FontAwesomeIcon
-						icon={faEdit}
+						icon={faTrashAlt}
 						className='manage-category__btn__icon'
 					/>
-					Chỉnh sửa
+					Xóa
 				</Button>
-			)}
-			<Button
-				type='button'
-				className='manage-category__btn delete'
-				onClick={() => setActivatedModal(true)}
-			>
-				<FontAwesomeIcon
-					icon={faTrashAlt}
-					className='manage-category__btn__icon'
-				/>
-				Xóa
-			</Button>
+			</div>
+
+			<div className='manage-category__form-group__postCount'>
+				Có {postCount} bài viết thuộc danh mục này
+			</div>
+
 			{activatedModal && (
 				<Modal setActivated={setActivatedModal}>
 					<div className='manage-category__modal'>

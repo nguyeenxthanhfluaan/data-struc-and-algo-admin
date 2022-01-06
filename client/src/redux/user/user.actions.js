@@ -1,5 +1,6 @@
 import userTypes from './user.types'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 export const loadUser = () => async (dispatch) => {
 	try {
@@ -35,6 +36,7 @@ export const loginUser =
 				payload: result.data,
 			})
 		} catch (error) {
+			toast.error('Sai email hoặc mật khẩu, vui lòng thử lại !')
 			console.log(error)
 		}
 	}

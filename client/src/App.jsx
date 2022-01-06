@@ -30,6 +30,7 @@ function App() {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
+		document.title = 'Learn Data Structure and Algorithm'
 		dispatch(fetchCategory())
 		dispatch(fetchSubject())
 		dispatch(fetchTypes())

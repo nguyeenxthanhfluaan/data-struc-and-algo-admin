@@ -14,7 +14,7 @@ $ git clone https://github.com/vtri1411/admin-algo-and-app.git
 $ npm run init
 ```
 
-### 3. Create file .env to server folder, and set variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, MONGO_URI to .env file
+### 3. Create file .env to server folder, and set variables CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, MONGO_URI in .env file
 
 ### 4. run
 

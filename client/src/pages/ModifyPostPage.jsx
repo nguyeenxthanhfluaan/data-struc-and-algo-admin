@@ -93,7 +93,6 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 		if (
 			title &&
 			description &&
-			definition &&
 			thumbnail &&
 			content &&
 			type &&
@@ -114,7 +113,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 							subject,
 							keywords: keywords.split(',').map((item) => item.trim()),
 						},
-						resetForm
+						() => history.push(`/manage/post`)
 					)
 				)
 			} else {
@@ -150,7 +149,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 		if (Object.keys(post).length > 0) {
 			setTitle(post.title)
 			setDescription(post.description)
-			setDefinition(definition)
+			setDefinition(post.definition)
 			setThumbnail(post.thumbnail.url)
 			setContent(post.content)
 			setType(post.type._id)
@@ -162,6 +161,7 @@ const ModifyPostPage = ({ isUpdatePost }) => {
 
 	useEffect(() => {
 		if (isUpdatePost && id) {
+			window.scrollTo(0, 0)
 			dispatch(fetchPostById(id))
 		}
 	}, [])

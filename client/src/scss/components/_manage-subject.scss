@@ -13,8 +13,11 @@
 	}
 
 	&__form-group {
-		display: flex;
 		margin-left: 20px;
+
+		&__wrapper {
+			display: flex;
+		}
 
 		& ~ & {
 			margin-top: 20px;

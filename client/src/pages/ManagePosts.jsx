@@ -15,6 +15,7 @@ import List from '../components/List'
 import PostCard from '../components/PostCard'
 import Button from '../components/Button'
 import { useHistory } from 'react-router-dom'
+import Helmet from '../components/Helmet'
 
 const ManagePost = () => {
 	const dispatch = useDispatch()
@@ -29,47 +30,50 @@ const ManagePost = () => {
 
 	useEffect(() => {
 		dispatch(fetchPosts({ sort: SORT_TYPES.NEWEST }))
+		window.scrollTo(0, 0)
 	}, [])
 
 	return (
-		<div className='manage-post'>
-			<div className='manage-post__list'>
-				{posts &&
-					posts.length > 0 &&
-					posts.map((item) => (
-						<div key={item._id} className='manage-post__item'>
-							<PostCard
-								post={item}
-								className='manage-post__item__card'
-							/>
-							<div className='manage-post__item__btn__list'>
-								<Button
-									className='manage-post__item__btn__item edit'
-									onClick={() =>
-										history.push(`/update-post/${item._id}`)
-									}
-								>
-									<FontAwesomeIcon
-										icon={faEdit}
-										className='manage-post__item__btn__item__icon'
-									/>
-									Chỉnh sửa
-								</Button>
-								<Button
-									className='manage-post__item__btn__item delete'
-									onClick={() => handleDeletePost(item._id)}
-								>
-									<FontAwesomeIcon
-										icon={faTrashAlt}
-										className='manage-post__item__btn__item__icon'
-									/>
-									Xóa
-								</Button>
+		<Helmet title={'Quản lý bài viết'}>
+			<div className='manage-post'>
+				<div className='manage-post__list'>
+					{posts &&
+						posts.length > 0 &&
+						posts.map((item) => (
+							<div key={item._id} className='manage-post__item'>
+								<PostCard
+									post={item}
+									className='manage-post__item__card'
+								/>
+								<div className='manage-post__item__btn__list'>
+									<Button
+										className='manage-post__item__btn__item edit'
+										onClick={() =>
+											history.push(`/update-post/${item._id}`)
+										}
+									>
+										<FontAwesomeIcon
+											icon={faEdit}
+											className='manage-post__item__btn__item__icon'
+										/>
+										Chỉnh sửa
+									</Button>
+									<Button
+										className='manage-post__item__btn__item delete'
+										onClick={() => handleDeletePost(item._id)}
+									>
+										<FontAwesomeIcon
+											icon={faTrashAlt}
+											className='manage-post__item__btn__item__icon'
+										/>
+										Xóa
+									</Button>
+								</div>
 							</div>
-						</div>
-					))}
+						))}
+				</div>
 			</div>
-		</div>
+		</Helmet>
 	)
 }
 

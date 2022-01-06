@@ -68,7 +68,7 @@ export const createPost =
 			subject,
 			keywords,
 		},
-		resetForm
+		callback
 	) =>
 	async (dispatch) => {
 		toast.info('Đang tạo bài viết')
@@ -93,9 +93,8 @@ export const createPost =
 					},
 				}
 			)
-			resetForm()
+			callback()
 			toast.success('Tạo bài viết thành công')
-			console.log(result.data)
 		} catch (error) {
 			toast.error('Tạo bài viết thất bại')
 			console.log(error)

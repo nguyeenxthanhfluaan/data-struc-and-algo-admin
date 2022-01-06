@@ -1,10 +1,12 @@
 .manage-category {
 	&__form-group {
-		display: flex;
-
 		& ~ & {
 			margin-top: 20px;
 		}
+	}
+
+	&__form-group__wrapper {
+		display: flex;
 	}
 
 	&__input {

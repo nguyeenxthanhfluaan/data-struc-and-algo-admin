@@ -35,8 +35,6 @@ const Menu = () => {
 	const history = useHistory()
 	const { pathname } = useLocation()
 
-	console.log('render')
-
 	return (
 		<div className='menu'>
 			<ul className='menu__list'>

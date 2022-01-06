@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import { toast } from 'react-toastify'
+
 import { loadUser, loginUser } from '../redux/user/user.actions'
 
 import Button from '../components/Button'
@@ -24,7 +26,12 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		dispatch(loginUser({ email, password }))
+
+		if (email && password) {
+			dispatch(loginUser({ email, password }))
+		} else {
+			toast.error('Nhập đầy đủ tên đăng nhập và mật khẩu')
+		}
 	}
 
 	return (
@@ -47,7 +54,7 @@ const Login = () => {
 							Mật khẩu
 						</label>
 						<input
-							type='text'
+							type='password'
 							className='login__form__input'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}

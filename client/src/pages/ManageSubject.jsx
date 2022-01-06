@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import {
 	faEdit,
 	faTrashAlt,
@@ -10,6 +9,7 @@ import {
 	faTimesCircle,
 	faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 import Button from '../components/Button'
 import {
@@ -17,6 +17,7 @@ import {
 	deleteSubject,
 	updateSubject,
 } from '../redux/subject/subject.actions'
+import Helmet from '../components/Helmet'
 
 const ManageSubject = () => {
 	const { categories, subjects } = useSelector(({ category, subject }) => ({
@@ -24,24 +25,29 @@ const ManageSubject = () => {
 		subjects: subject.subjects,
 	}))
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	return (
-		categories?.length > 0 &&
-		subjects?.length > 0 && (
-			<div className='manage-subject'>
-				{categories.map((cateogoryItem) => {
-					return (
-						<CategoryContainer
-							key={cateogoryItem._id}
-							category={cateogoryItem}
-							subjects={subjects.filter(
-								(subjectItem) =>
-									subjectItem.category._id === cateogoryItem._id
-							)}
-						/>
-					)
-				})}
-			</div>
-		)
+		<Helmet title={'Quản lý chủ đề'}>
+			{categories?.length > 0 && subjects?.length > 0 && (
+				<div className='manage-subject'>
+					{categories.map((cateogoryItem) => {
+						return (
+							<CategoryContainer
+								key={cateogoryItem._id}
+								category={cateogoryItem}
+								subjects={subjects.filter(
+									(subjectItem) =>
+										subjectItem.category._id === cateogoryItem._id
+								)}
+							/>
+						)
+					})}
+				</div>
+			)}
+		</Helmet>
 	)
 }
 
@@ -136,6 +142,8 @@ const FormSubject = ({ subject }) => {
 
 	const inputRef = useRef()
 
+	const [postCount, setPostCount] = useState(0)
+
 	const [activatedEdit, setActivatedEdit] = useState(false)
 	const [subjectName, setSubjectName] = useState(subject.name)
 
@@ -162,65 +170,79 @@ const FormSubject = ({ subject }) => {
 		dispatch(deleteSubject({ _id: subject._id }))
 	}
 
+	useEffect(async () => {
+		const { data } = await axios.get('/api/post/count', {
+			params: {
+				subject: subject._id,
+			},
+		})
+		setPostCount(data)
+	}, [])
+
 	return (
 		<form className='manage-subject__form-group'>
-			<input
-				type='text'
-				className='manage-subject__input'
-				value={subjectName}
-				disabled={activatedEdit ? false : true}
-				onChange={(e) => setSubjectName(e.target.value)}
-				ref={inputRef}
-			/>
-			{activatedEdit ? (
-				<>
+			<div className='manage-subject__form-group__wrapper'>
+				<input
+					type='text'
+					className='manage-subject__input'
+					value={subjectName}
+					disabled={activatedEdit ? false : true}
+					onChange={(e) => setSubjectName(e.target.value)}
+					ref={inputRef}
+				/>
+				{activatedEdit ? (
+					<>
+						<Button
+							className='manage-subject__btn cancel'
+							type='button'
+							onClick={() => setActivatedEdit(false)}
+						>
+							<FontAwesomeIcon
+								icon={faTimesCircle}
+								className='manage-subject__btn__icon'
+							/>
+							Hủy bỏ
+						</Button>
+						<Button
+							className='manage-subject__btn save'
+							type='submit'
+							onClick={handleEdit}
+						>
+							<FontAwesomeIcon
+								icon={faSave}
+								className='manage-subject__btn__icon'
+							/>
+							Lưu
+						</Button>
+					</>
+				) : (
 					<Button
-						className='manage-subject__btn cancel'
+						className='manage-subject__btn edit'
 						type='button'
-						onClick={() => setActivatedEdit(false)}
+						onClick={() => setActivatedEdit(true)}
 					>
 						<FontAwesomeIcon
-							icon={faTimesCircle}
+							icon={faEdit}
 							className='manage-subject__btn__icon'
 						/>
-						Hủy bỏ
+						Chỉnh sửa
 					</Button>
-					<Button
-						className='manage-subject__btn save'
-						type='submit'
-						onClick={handleEdit}
-					>
-						<FontAwesomeIcon
-							icon={faSave}
-							className='manage-subject__btn__icon'
-						/>
-						Lưu
-					</Button>
-				</>
-			) : (
+				)}
 				<Button
-					className='manage-subject__btn edit'
+					className='manage-subject__btn delete'
 					type='button'
-					onClick={() => setActivatedEdit(true)}
+					onClick={handleDeleteSubject}
 				>
 					<FontAwesomeIcon
-						icon={faEdit}
+						icon={faTrashAlt}
 						className='manage-subject__btn__icon'
 					/>
-					Chỉnh sửa
+					Xóa
 				</Button>
-			)}
-			<Button
-				className='manage-subject__btn delete'
-				type='button'
-				onClick={handleDeleteSubject}
-			>
-				<FontAwesomeIcon
-					icon={faTrashAlt}
-					className='manage-subject__btn__icon'
-				/>
-				Xóa
-			</Button>
+			</div>
+			<div className='manage-subject__form-group__postCount'>
+				Có {postCount} bài viết thuộc danh mục này
+			</div>
 		</form>
 	)
 }

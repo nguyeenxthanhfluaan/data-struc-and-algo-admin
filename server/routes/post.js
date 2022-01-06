@@ -47,6 +47,72 @@ router.get('/', async (req, res) => {
 	}
 })
 
+router.get('/count', async (req, res) => {
+	try {
+		const { category, subject } = req.query
+		console.log(req.query)
+
+		let aggregateQuery = []
+		let $match = {}
+
+		aggregateQuery.push({
+			$lookup: {
+				from: 'subjects',
+				localField: 'subject',
+				foreignField: '_id',
+				as: 'subject',
+			},
+		})
+		aggregateQuery.push({
+			$lookup: {
+				from: 'categories',
+				localField: 'subject.category',
+				foreignField: '_id',
+				as: 'category',
+			},
+		})
+		aggregateQuery.push({
+			$lookup: {
+				from: 'types',
+				localField: 'type',
+				foreignField: '_id',
+				as: 'type',
+			},
+		})
+
+		aggregateQuery.push({ $unwind: '$subject' })
+		aggregateQuery.push({ $unwind: '$category' })
+		aggregateQuery.push({ $unwind: '$type' })
+
+		if (category) {
+			Object.assign($match, {
+				'category._id': ObjectId(category),
+			})
+		}
+		if (subject) {
+			Object.assign($match, {
+				'subject._id': ObjectId(subject),
+			})
+		}
+
+		if (Object.keys($match).length > 0) {
+			aggregateQuery.push({ $match })
+		}
+
+		aggregateQuery.push({
+			$count: 'count',
+		})
+
+		console.log(aggregateQuery)
+
+		const result = await Post.aggregate(aggregateQuery)
+		res.json(result[0].count)
+	} catch (error) {
+		console.log(error)
+		res.sendStatus(500)
+	}
+})
+
 // @route   GET api/post/:id
 // @desc    Get a post by id
 // @access  Public
