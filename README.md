@@ -1,11 +1,12 @@
-# Data Structure Search
+# Data Structure Search Admin
+
 
 ## :computer: How to run
 
 ### 1. Clone the repository:
 
 ```
-$ git clone https://github.com/vtri1411/admin-algo-and-app.git
+$ git clone https://github.com/buivantann/data-struc-and-algo-admin.git
 ```
 
 ### 2. Install package
